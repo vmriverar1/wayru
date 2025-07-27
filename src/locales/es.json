@@ -1,0 +1,327 @@
+
+{
+  "appName": "AquaVita",
+  "nav": {
+    "home": "Inicio",
+    "ourMission": "Nuestra Misión",
+    "solutions": "Nuestro Impacto",
+    "projects": "Proyectos",
+    "blog": "Blog",
+    "contact": "Contacto",
+    "language": "Idioma"
+  },
+  "loading": "Cargando...",
+  "hero": {
+  },
+  "introCard": {
+    "question": "¿Te imaginas vivir en un mundo sin agua? ¿Cómo realizarías actividades como cocinar, lavar los platos y asearte?",
+    "statement": "Frente al contexto de escasez hídrica, Wayru llegó para redefinir el uso del agua, proporcionando sostenibilidad, bienestar e higiene en cada hogar."
+  },
+  "phrases": {
+    "phrase1": "1 de cada 3 personas en el mundo carecen de servicio de agua potable.",
+    "phrase1_icon_alt": "Icono de personas",
+    "phrase2": "3 millones de peruanos son afectados por esta situación.",
+    "phrase2_icon_alt": "Icono de mapa de Perú"
+  },
+  "informativeVideo": {
+    "title": "Nuestro Propósito",
+    "description": "Somos una empresa social comprometida con mejorar la calidad de vida de las comunidades sin acceso a redes de agua potable y que enfrentan escasez hídrica. Buscamos:",
+    "tab1_title": "Impactar",
+    "tab1_content": "Impactar positivamente en la sociedad a través de proyectos sociales, talleres educativos y soluciones innovadoras.",
+    "tab2_title": "Contribuir",
+    "tab2_content": "Contribuir con el desarrollo sostenible, promoviendo la gestión responsable del agua y la conservación de nuestros recursos naturales.",
+    "tab3_title": "Empoderar",
+    "tab3_content": "Empoderar a más familias para que sean parte del cambio que nuestro planeta necesita, mediante prácticas sostenibles de disposición y consumo de agua.",
+    "tab4_title": "Inspirar",
+    "tab4_content": "Inspirar a más actores a unirse a nuestra causa y actuar frente a la escasez hídrica."
+  },
+  "productSection": {
+    "title": "Nuestro Producto Innovador",
+    "item1_title": "Generación Atmosférica de Agua",
+    "item1_description": "Tecnología de vanguardia que extrae agua potable pura directamente del aire, proporcionando una solución sostenible para regiones áridas.",
+    "item2_title": "Filtración Inteligente de Agua",
+    "item2_description": "Sistemas de filtración avanzados que garantizan agua segura y limpia, adaptables para hogares, comunidades y situaciones de emergencia.",
+    "item3_title": "Kits de Conservación de Agua",
+    "item3_description": "Kits fáciles de usar y materiales educativos para ayudar a los hogares a reducir el consumo de agua y adoptar hábitos de ahorro."
+  },
+  "eventsSection": {
+    "title": "Comunidad y Eventos",
+    "event1_title": "Taller: Agua para Todos",
+    "event1_description": "Únete a nuestro taller educativo sobre prácticas sostenibles del agua y participación comunitaria. Aprende cómo puedes marcar la diferencia.",
+    "event2_title": "Evento Benéfico AquaRun",
+    "event2_description": "Participa en nuestra carrera benéfica anual para recaudar fondos para proyectos de agua en comunidades desatendidas. ¡Cada paso cuenta!",
+    "event3_title": "Cumbre de Innovación",
+    "event3_description": "Descubre los últimos avances en tecnología y políticas del agua en nuestra cumbre anual. Conéctate con expertos y líderes."
+  },
+  "newsSection": {
+    "mainTitle": "Por una ciudad más feliz",
+    "mainSubtitle": "Wayru, el proyecto con el objetivo de hacer una Lima más accesible al agua potable",
+    "readMoreButton": "Leer Más",
+    "item1": {
+      "title": "“Por una ciudad más feliz”: Wayru, el proyecto con el objetivo de hacer una Lima más accesible al agua potable",
+      "subtitle": "Entrevista para la revista Somos del diario peruano “El Comercio”"
+    },
+    "item2": {
+      "title": "Emprendedoras combaten la crisis hídrica en Perú",
+      "subtitle": "Entrevista para el diario chileno DF SUD"
+    },
+    "item3": {
+      "title": "Innovadoras peruanas crean una ducha portátil que no necesita tuberías ni electricidad",
+      "subtitle": "Nota de prensa en la agencia peruana de noticias “Andina”"
+    },
+    "item4": {
+      "title": "Conoce a Wayru Perú ganadores del programa Protagonistas del Cambio UPC por los ODS 2023",
+      "subtitle": "Nota de prensa en el periódico peruano “RPP”"
+    },
+    "item5": {
+      "title": "Wayru Perú, finalista de Perumin Inspira 2023 atiende problema de acceso limitado al agua",
+      "subtitle": "Entrevista en televisión para la plataforma “Red de Comunicación Regional (RCR)”."
+    },
+    "item6": {
+      "title": "Wayru Perú participa en evento internacional del BID y la ONU durante la Semana del Agua 2023",
+      "subtitle": "Presentación en la conferencia “Fuente de Innovación: Acelerando el ODS 6” organizada por el Banco Interamericano de Desarrollo y las Naciones Unidas."
+    },
+    "item7": {
+      "title": "La ducha portátil llegó para revolucionar la higiene en los hogares peruanos",
+      "subtitle": "Nota de prensa en el periódico gratuito internacional “Publimetro”"
+    },
+    "item8": {
+      "title": "Emprendedores de EE.UU. y Perú ganan plazas en la cohorte anual ASME ISHOW con innovaciones accesibles en energía limpia y agua",
+      "subtitle": "Nota de prensa de la “American Society of Mechanical Engineers (ASME)”"
+    },
+    "item9": {
+      "title": "Geógrafa peruana ganó concurso internacional con proyecto de duchas portátiles",
+      "subtitle": "Nota de prensa en el diario peruano “La República”."
+    },
+    "item10": {
+      "title": "Wayru en TV Perú: Soluciones Innovadoras para la Escasez de Agua",
+      "subtitle": "Segmento en el programa \"Generación Bicentenario\" transmitido en la cadena de televisión pública TV Perú."
+    },
+    "item11": {
+      "title": "Alumnas y egresada PUCP son las creadoras de Wayru, proyecto que obtuvo el primer lugar en la E-Hackathon del BID",
+      "subtitle": "Entrevista para el boletín “Punto Edu”, portal de noticias de la Pontificia Universidad Católica del Perú."
+    }
+  },
+  "impactSection": {
+    "title": "¿Quieres saber cómo Wayru está transformando el mundo?",
+    "description": "● Conoce más sobre nuestro impacto en las comunidades, el medio ambiente y la sociedad.",
+    "shareLabel": "Comparte esta página:",
+    "shareFacebook": "Compartir en Facebook",
+    "shareTwitter": "Compartir en Twitter",
+    "shareLinkedIn": "Compartir en LinkedIn",
+    "shareEmail": "Compartir por correo electrónico"
+  },
+  "serParte": {
+    "title": "Sé Parte del Cambio",
+    "introText": "Tu contribución puede marcar una diferencia significativa. Explora cómo puedes involucrarte y ayudarnos a llevar agua limpia a más comunidades.",
+    "prevSlide": "Diapositiva anterior",
+    "nextSlide": "Siguiente diapositiva",
+    "slide1_title": "Patrocina un proyecto",
+    "slide1_description": "Empresas y personas pueden financiar proyectos específicos para llevar agua y educación ambiental a más comunidades. ¡Construyamos juntos!",
+    "slide1_button": "Contáctanos",
+    "slide2_title": "Inspira y enlaza",
+    "slide2_description": "Comparte tus conocimientos o conéctanos con comunidades que puedan beneficiarse de nuestros proyectos. ¡Sé parte del impacto positivo!",
+    "slide2_button": "Construye",
+    "slide3_title": "Comparte nuestra labor",
+    "slide3_description": "Síguenos en redes sociales y comparte nuestro trabajo con quienes te rodean. ¡Ayúdanos a expandir el mensaje de la sostenibilidad!",
+    "slide3_button": "Difunde",
+    "contactUs": "Contáctanos",
+    "buildWithUs": "Construye con Nosotros",
+    "form": {
+      "description": "Completa el siguiente formulario y nos pondremos en contacto contigo en breve.",
+      "name": "Nombre",
+      "email": "Correo Electrónico",
+      "message": "Mensaje",
+      "send": "Enviar Mensaje",
+      "submitted": "¡Gracias! Tu mensaje ha sido enviado."
+    },
+    "social": {
+      "title": "Difunde la Voz",
+      "description": "Síguenos y comparte nuestra misión en tus redes sociales."
+    }
+  },
+  "alliesSection": {
+    "title": "Juntos hacemos la diferencia",
+    "description": "● Conoce a nuestros aliados que comparten nuestra visión y se suman a nuestro compromiso de crear un mundo más sostenible.",
+    "button": "Conoce Más"
+  },
+  "homeContactSection": {
+    "title": "Construyamos un futuro sostenible",
+    "subtitle": "¡CONTÁCTANOS!",
+    "imageAlt": "Personas de la comunidad beneficiándose de proyectos de agua",
+    "form": {
+      "name": "Nombre completo",
+      "subject": "Asunto",
+      "email": "Email",
+      "message": "Mensaje",
+      "submit": "ENVIAR",
+      "submittedAlert": "¡Formulario enviado con éxito!"
+    }
+  },
+  "footer": {
+    "copy": "© {year} Todos los derechos reservados.",
+    "privacyPolicy": "Política de Privacidad",
+    "legalNotice": "Aviso Legal",
+    "complaintsBook": "Libro de Reclamaciones",
+    "social": {
+      "facebook": "AquaVita en Facebook",
+      "linkedin": "AquaVita en LinkedIn",
+      "instagram": "AquaVita en Instagram"
+    }
+  },
+  "pages": {
+    "ourMission": {
+      "title": "Nuestra Misión",
+      "missionTitle": "Nuestra Misión",
+      "missionText": "Transformar la forma en que usamos el agua para garantizar un mundo más sostenible y saludable para todos, especialmente para las comunidades con escasez hídrica, mediante la innovación, la educación y la colaboración.",
+      "visionTitle": "Nuestra Visión",
+      "visionText": "Garantizar que el agua sea un recurso valorado y utilizado de manera sostenible, logrando un planeta saludable y una mejor calidad de vida en la actualidad y para futuras generaciones.",
+      "historyTitle": "Nuestra Historia"
+    },
+    "solutions": {
+      "bannerTitle": "Nuestro Impacto",
+      "subtitle": "Descubre cómo transformamos el mundo, una gota a la vez",
+      "impactWaterSavedValue": "+5K",
+      "impactWaterSavedLabel": "Litros de agua ahorrados anualmente por familia",
+      "impactSavingsValue": "+30%",
+      "impactSavingsLabel": "Ahorro hídrico y económico",
+      "impactWaterDaysValue": "+6",
+      "impactWaterDaysLabel": "Días de agua en el hogar",
+      "impactPeopleEmpoweredValue": "+200",
+      "impactPeopleEmpoweredLabel": "personas empoderadas como agentes de cambio",
+      "testimonialsTitle": "Proyectos - Testimonios",
+      "testimonialsDescription": "Escucha a quienes han experimentado nuestro impacto de primera mano y conoce los proyectos que marcan la diferencia.",
+      "testimonial1Quote": "El proyecto de AquaVita trajo agua limpia a nuestra aldea, cambiando nuestras vidas para siempre. Estamos más saludables y esperanzados.",
+      "testimonial1Author": "María, Líder Comunitaria",
+      "testimonial2Quote": "El nuevo sistema de riego ha impulsado nuestros cultivos e ingresos. ¡Gracias, AquaVita!",
+      "testimonial2Author": "Juan, Agricultor",
+      "testimonial3Quote": "Aprender sobre la conservación del agua nos ha empoderado para tomar decisiones sostenibles para nuestras familias.",
+      "testimonial3Author": "Elena, Participante del Taller",
+      "odsSubtitle": "un futuro sostenible",
+      "odsTitle": "Objetivos de Desarrollo Sostenible",
+      "odsDescription": "Descubre cómo contribuimos a los Objetivos de Desarrollo Sostenible (ODS) y contribuimos al cambio positivo en comunidades que necesitan acceso al agua y mejores condiciones de vida.",
+      "odsCard3Title": "ODS 3: Salud y Bienestar",
+      "odsCard3Description": "Contribuimos al bienestar mejorando la higiene personal y reduciendo el riesgo de enfermedades relacionadas con la falta de acceso a agua potable e higiene adecuada.",
+      "odsCard6Title": "ODS 6: Agua Limpia y Saneamiento",
+      "odsCard6Description": "Mejoramos el acceso a agua segura, la higiene adecuada y el uso eficiente del agua, lo que beneficia al medio ambiente y la sociedad.",
+      "odsCard10Title": "ODS 10: Reducción de las Desigualdades",
+      "odsCard10Description": "Brindamos acceso a recursos básicos como el agua, la higiene, y conocimiento en sostenibilidad a comunidades desfavorecidas, mejorando su calidad de vida.",
+      "odsCard11Title": "ODS 11: Ciudades Sostenibles",
+      "odsCard11Description": "Promovemos la gestión sostenible de los recursos hídricos, ayudando a las personas a vivir en comunidades más saludables.",
+      "odsCard13Title": "ODS 13: Acción por el Clima",
+      "odsCard13Description": "Colaboramos con la conservación de los recursos naturales y damos herramientas a las personas para vivir en comunidades más resilientes al cambio climático."
+    },
+    "projects": {
+      "title": "Proyectos",
+      "alliesTitle": "Nuestros aliados estratégicos",
+      "alliesDescription": "Contamos con el apoyo de:",
+      "ally1": "Banco Interamericano de Desarrollo",
+      "ally2": "Startup Perú",
+      "ally3": "American Society of Mechanical Engineers",
+      "ally4": "Young Water Solutions",
+      "ally5": "Municipalidad de Lima",
+      "ally6": "Royal Academy of Engineering",
+      "ally7": "Women4Climate",
+      "ally8": "Kunan",
+      "ally9": "SUNASS",
+      "ally10": "Cewas",
+      "ally11": "Protagonistas del Cambio UPC",
+      "ally12": "Young Leaders of the Americas Initiative",
+      "ally13": "The Pollination Project",
+      "ally14": "Universidad Científica del Sur",
+      "ally15": "Agualimpia",
+      "ally16": "Impact Hub Ciudad de México",
+      "ally17": "Watsan",
+      "ally18": "Eko Group H2O+"
+    },
+    "communitySupport": {
+      "title": "Apoyo de la comunidad",
+      "introText": "Conoce quienes nos respaldan en nuestro compromiso con el agua y la sostenibilidad",
+      "award1_title": "1ER LUGAR",
+      "award1_description": "e-Hackathon en Agua, Saneamiento e Higiene 2020 del Banco Interamericano de Desarrollo",
+      "award2_title": "1ER LUGAR",
+      "award2_description": "Lima, Mujeres por el Clima de la Municipalidad de Lima, C40 Cities y Cálidda",
+      "award3_title": "GANADORES",
+      "award3_description": "del ASME Ishow 2022 del American Society of Mechanical Engineers",
+      "award4_title": "GANADORES",
+      "award4_description": "de Startup Perú 8G+ programa ProInnóvate del Ministerio de la Producción del Perú (Produce)",
+      "award5_title": "GANADORES",
+      "award5_description": "del programa Protagonistas del Cambio UPC por los ODS 2023"
+    },
+    "blog": {
+      "title": "Blog"
+    },
+    "contact": {
+      "title": "Contáctanos"
+    },
+    "privacyPolicy": {
+      "title": "Política de Privacidad"
+    },
+    "legalNotice": {
+      "title": "Aviso Legal"
+    },
+    "complaintsBook": {
+      "title": "Libro de Reclamaciones",
+      "mainTitle": "Libro de Reclamaciones Wayru Perú",
+      "introText1": "Conforme a lo establecido en el Código de Protección y Defensa del Consumidor, contamos con un Libro de Reclamaciones virtual a su disposición.",
+      "companyNameRUC": "Wayru Perú SAC - RUC: 20607158402",
+      "companyLocation": "Lima, Lima, Perú.",
+      "formTitle": "Formulario",
+      "dateLabel": "Fecha",
+      "section1Title": "1. Identificación del consumidor o reclamante",
+      "fullNameLabel": "Nombre completo o razón social*",
+      "fullNamePlaceholder": "Juan Pérez / Empresa XYZ S.A.C.",
+      "idDocumentTypeLabel": "Documento de identidad (marcar una opción)*",
+      "idOptions": {
+        "dni": "DNI",
+        "pasaporte": "Pasaporte",
+        "carnetdeextranjeria": "Carnet de extranjería",
+        "ruc": "RUC"
+      },
+      "idNumberLabel": "Número de Documento de Identidad*",
+      "idNumberPlaceholder": "Ej: 12345678",
+      "emailLabel": "Correo electrónico*",
+      "emailPlaceholder": "correo@ejemplo.com",
+      "addressLabel": "Dirección",
+      "addressPlaceholder": "Av. Siempre Viva 123",
+      "phoneLabel": "Teléfono",
+      "phonePlaceholder": "987654321",
+      "representativeLabel": "Apoderado (en el caso de ser menor de edad)",
+      "representativePlaceholder": "Nombre del apoderado",
+      "section2Title": "2. Identificación del bien contratado",
+      "relatedToLabel": "El reclamo o queja está relacionado a un (marcar opción, puede ser una o ambas)*",
+      "relatedOptions": {
+        "product": "Producto",
+        "service": "Servicio"
+      },
+      "acquisitionDateLabel": "Fecha de adquisición*",
+      "datePlaceholder": "Seleccione una fecha",
+      "descriptionLabel": "Descripción*",
+      "descriptionPlaceholder": "Describa el producto o servicio",
+      "section3Title": "3. Detalles de la reclamación",
+      "claimTypeLabel": "Tipo de reclamo (marcar opción)*",
+      "claimTypes": {
+        "claim": "Reclamo: Disconformidad relacionada con los productos o servicios",
+        "complaint": "Queja: Disconformidad no relacionada con los productos o servicios; o, malestar o descontento respecto a la atención al público",
+        "claimShort": "Reclamo",
+        "complaintShort": "Queja"
+      },
+      "claimDetailLabel": "Detalle o motivo de la reclamación*",
+      "claimDetailPlaceholder": "Describa su reclamo o queja aquí...",
+      "signatureLabel": "Firma del reclamante",
+      "signatureHelpText": "Opcional. Adjunte un archivo si es necesario. (La carga de archivos requiere configuración del servidor).",
+      "nextButton": "Siguiente",
+      "backButton": "Anterior",
+      "postNextText1": "Es importante que complete todos los datos señalados como \"obligatorios\" en el presente formulario de reclamo/queja para que pueda ser evaluado y atendido adecuadamente.",
+      "postNextText2": "Una vez presentado el formulario, usted recibirá la hoja de reclamación y un código de identificación a través del correo electrónico que proporcionó.",
+      "postNextText3": "Es importante destacar que existe un tiempo límite de 30 días calendario para atender su reclamo o queja. No obstante, en casos especiales, este período máximo puede ser extendido y se notificará al usuario a través del medio de contacto que indicó en el formulario.",
+      "postNextText4": "Al enviar este formulario de reclamo o queja, usted confirma haber sido informado sobre el procedimiento, el plazo de atención y el medio de respuesta.",
+      "sendButton": "Enviar",
+      "submissionSuccessTitle": "Reclamación Enviada",
+      "submissionSuccessMessage": "Su {claimType} con número de caso {caseNumber} ha sido registrada. Recibirá una copia en su correo electrónico. (En una aplicación real, también se enviaría una copia a contacto@wayruperu.com).",
+      "fieldRequiredError": "Este campo es obligatorio.",
+      "invalidEmailError": "Correo electrónico inválido.",
+      "selectAtLeastOneError": "Seleccione al menos una opción (Producto o Servicio)."
+    }
+  }
+}

@@ -97,10 +97,10 @@ export function SerParteSection() {
 
   return (
     <section id="ser-parte" className="bg-primary text-primary-foreground py-16 md:py-24 lg:py-32 overflow-hidden">
-      <div className="pl-4 sm:pl-6 lg:pl-8"> {/* Modified this line */}
+      <div>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Column: Title and Navigation */}
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-left px-4 sm:px-6 lg:px-8">
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
               {t('serParte.title')}
             </h2>
@@ -133,8 +133,8 @@ export function SerParteSection() {
           </div>
 
           {/* Right Column: Slider */}
-          <div className="relative w-full md:h-[500px] h-[480px]"> {/* Fixed height for the slider area */}
-            <div className="overflow-hidden h-full rounded-lg"> {/* Slider Viewport */}
+          <div className="relative w-full md:h-[600px] h-[550px]"> {/* Fixed height for the slider area */}
+            <div className="overflow-hidden h-full"> {/* Slider Viewport - removed rounded corners */}
               <div ref={slideContainerRef} className="flex h-full"> {/* Slider Track */}
                 {sliderData.map((slide, index) => (
                   <div
@@ -143,8 +143,8 @@ export function SerParteSection() {
                     className="h-full flex-shrink-0"
                     style={{ width: '85%' }} // Each slide item takes 85% of viewport width
                   >
-                    <div className="p-1.5 md:p-2 w-full h-full"> {/* Padding for the card inside the 85% slot */}
-                        <Card className="bg-background text-foreground h-full w-full flex flex-col shadow-xl rounded-lg overflow-hidden">
+                    <div className="w-full h-full flex items-center"> {/* Centered container */}
+                        <Card className="bg-background text-foreground h-full w-full flex flex-col shadow-xl overflow-hidden">
                            {/* Image Container */}
                           <div className="relative w-full h-48 md:h-56 flex-shrink-0">
                             <Image

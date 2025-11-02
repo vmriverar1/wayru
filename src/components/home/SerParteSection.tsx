@@ -117,7 +117,7 @@ export function SerParteSection() {
 
           if (progress >= 0.26) {
             const { titleCenterX } = getTitleBounds();
-            const containerLeft = window.innerWidth * 0.15; // px-[15vw]
+            const containerLeft = window.innerWidth; // pl-[100vw] - starts from right edge
 
             cards.forEach((card, index) => {
               const cardLeft = containerLeft + scrollX + (index * (cardWidth + gap));
@@ -255,7 +255,7 @@ export function SerParteSection() {
       {/* Cards Container - Horizontal Scroll */}
       <div
         ref={cardsContainerRef}
-        className="absolute top-0 left-0 h-full flex gap-8 px-[15vw] pt-[30vh]"
+        className="absolute top-0 left-0 h-full flex gap-8 pl-[100vw] pr-[15vw] pt-[30vh]"
       >
         {cardsData.map((card, index) => (
           <div

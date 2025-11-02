@@ -70,7 +70,7 @@ export function InformativeVideoSection() {
                 {/* Imagen grande izquierda - ocupa toda la altura */}
                 <div className="relative rounded-lg overflow-hidden shadow-xl flex-1">
                   <Image
-                    src="https://picsum.photos/seed/waterpurpose1/800/1000"
+                    src="/images/video/purpose1.jpg"
                     alt="Propósito Wayru 1"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -83,7 +83,7 @@ export function InformativeVideoSection() {
                   {/* Imagen superior derecha - más alta (2/3 del espacio) */}
                   <div className="relative rounded-lg overflow-hidden shadow-xl h-[267px]">
                     <Image
-                      src="https://picsum.photos/seed/waterpurpose2/600/640"
+                      src="/images/video/purpose2.jpg"
                       alt="Propósito Wayru 2"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -94,7 +94,7 @@ export function InformativeVideoSection() {
                   {/* Imagen inferior derecha - más pequeña (1/3 del espacio) */}
                   <div className="relative rounded-lg overflow-hidden shadow-xl h-[133px]">
                     <Image
-                      src="https://picsum.photos/seed/waterpurpose3/600/320"
+                      src="/images/video/purpose3.jpg"
                       alt="Propósito Wayru 3"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -14,7 +14,7 @@ const newsData = [
     titleKey: 'newsSection.item1.title',
     subtitleKey: 'newsSection.item1.subtitle',
     link: 'https://elcomercio.pe/somos/historias/enco-por-una-ciudad-mas-feliz-dos-mujeres-dos-proyectos-y-el-objetivo-de-hacer-una-lima-mas-accesible-al-agua-potable-y-la-energia-solar-notfds-noticia/',
-    imageSrc: 'https://placehold.co/600x400.png', // Adjusted placeholder aspect ratio
+    imageSrc: '/images/news/news1.jpg',
     aiHint: 'city happiness water',
   },
   {
@@ -22,7 +22,7 @@ const newsData = [
     titleKey: 'newsSection.item2.title',
     subtitleKey: 'newsSection.item2.subtitle',
     link: 'https://dfsud.com/tecnologia-y-startup/catherine-romani-la-emprendedora-que-combate-la-crisis-hidrica-en-peru',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news2.jpg',
     aiHint: 'entrepreneur water crisis',
   },
   {
@@ -30,7 +30,7 @@ const newsData = [
     titleKey: 'newsSection.item3.title',
     subtitleKey: 'newsSection.item3.subtitle',
     link: 'https://andina.pe/agencia/noticia-innovadoras-peruanas-crean-una-ducha-portatil-no-necesita-tuberias-ni-electricidad-979461.aspx',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news3.jpg',
     aiHint: 'portable shower innovation',
   },
   {
@@ -38,7 +38,7 @@ const newsData = [
     titleKey: 'newsSection.item4.title',
     subtitleKey: 'newsSection.item4.subtitle',
     link: 'https://rpp.pe/campanas/contenido-patrocinado/conoce-wayru-peru-e-iway-iniciativas-peruanas-de-jovenes-agentes-de-cambio-noticia-1508026#:~:text=Por%20sus%20innovadoras%20propuestas%20con,cuenta%20con%20Naciones%20Unidas%20como',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news4.jpg',
     aiHint: 'award young innovators',
   },
   {
@@ -46,7 +46,7 @@ const newsData = [
     titleKey: 'newsSection.item5.title',
     subtitleKey: 'newsSection.item5.subtitle',
     link: 'https://www.rcrperu.com/finalista-de-perumin-inspira-2023-wayru-peru-atiende-problema-de-acceso-limitado-al-agua',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news5.jpg',
     aiHint: 'water access solution',
   },
   {
@@ -54,7 +54,7 @@ const newsData = [
     titleKey: 'newsSection.item6.title',
     subtitleKey: 'newsSection.item6.subtitle',
     link: 'https://diariocorreo.pe/peru/startup-peruana-crea-ducha-portatil-que-ahorra-90-de-agua-wayru-noticia/?ref=dcr',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news6.jpg',
     aiHint: 'international conference water',
   },
   {
@@ -62,7 +62,7 @@ const newsData = [
     titleKey: 'newsSection.item7.title',
     subtitleKey: 'newsSection.item7.subtitle',
     link: 'https://www.publimetro.pe/noticias/2023/03/06/la-ducha-portatil-llego-para-revolucionar-la-higiene-en-los-hogares-peruanos/',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news7.jpg',
     aiHint: 'hygiene revolution home',
   },
   {
@@ -70,7 +70,7 @@ const newsData = [
     titleKey: 'newsSection.item8.title',
     subtitleKey: 'newsSection.item8.subtitle',
     link: 'https://www.asme.org/about-asme/media-inquiries/press-releases/entrepreneurs-from-the-u-s-and-peru-earn-places-in-annual-asme-ishow-cohort-with-accessible-clean-energy-and-water-innovations',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news8.jpg',
     aiHint: 'engineering innovation award',
   },
   {
@@ -78,7 +78,7 @@ const newsData = [
     titleKey: 'newsSection.item9.title',
     subtitleKey: 'newsSection.item9.subtitle',
     link: 'https://larepublica.pe/sociedad/2022/06/08/municipalidad-de-lima-geografa-peruana-gano-concurso-internacional-por-proyecto-de-duchas-portatiles',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news9.jpg',
     aiHint: 'geographer award water',
   },
   {
@@ -86,7 +86,7 @@ const newsData = [
     titleKey: 'newsSection.item10.title',
     subtitleKey: 'newsSection.item10.subtitle',
     link: 'https://www.youtube.com/watch?t=43m36s&v=Ez2v5E6TLas&feature=youtu.be',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news10.jpg',
     aiHint: 'tv peru interview',
   },
   {
@@ -94,7 +94,7 @@ const newsData = [
     titleKey: 'newsSection.item11.title',
     subtitleKey: 'newsSection.item11.subtitle',
     link: 'https://puntoedu.pucp.edu.pe/orgullo-pucp/alumnas-y-egresada-pucp-son-las-creadoras-de-wayru-proyecto-que-obtuvo-el-primer-lugar-en-la-e-hackathon-del-bid/',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: '/images/news/news11.jpg',
     aiHint: 'university project award',
   },
 ];

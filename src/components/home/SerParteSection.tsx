@@ -23,7 +23,7 @@ const cardsData = [
     descriptionKey: 'serParte.slide1_description',
     buttonKey: 'serParte.slide1_button',
     buttonAction: 'contact',
-    imageSrc: 'https://picsum.photos/seed/sponsor/1920/1080',
+    imageSrc: '/images/serparte/slide1.jpg',
     aiHint: 'community project hands'
   },
   {
@@ -32,7 +32,7 @@ const cardsData = [
     descriptionKey: 'serParte.slide2_description',
     buttonKey: 'serParte.slide2_button',
     buttonAction: 'contact',
-    imageSrc: 'https://picsum.photos/seed/inspire/1920/1080',
+    imageSrc: '/images/serparte/slide2.jpg',
     aiHint: 'people collaboration lightbulb'
   },
   {
@@ -41,7 +41,7 @@ const cardsData = [
     descriptionKey: 'serParte.slide3_description',
     buttonKey: 'serParte.slide3_button',
     buttonAction: 'social',
-    imageSrc: 'https://picsum.photos/seed/share/1920/1080',
+    imageSrc: '/images/serparte/slide3.jpg',
     aiHint: 'social media sharing'
   },
 ];
@@ -74,18 +74,8 @@ export function SerParteSection() {
     const cardsContainer = cardsContainerRef.current;
     const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
 
-    // Set initial state - cards visible but images blurred
+    // Set initial state - cards visible
     gsap.set(cardsContainer, { opacity: 0 });
-
-    // Set blur on images and scale on cards (except first one)
-    cards.forEach((card, index) => {
-      const image = card.querySelector('.card-image');
-      if (image) {
-        gsap.set(image, { filter: index === 0 ? 'blur(0px)' : 'blur(8px)' });
-      }
-      // Scale the entire card
-      gsap.set(card, { scale: index === 0 ? 1 : 0.8 });
-    });
 
     // Calculate total scroll distance - 45vw per card + gap
     const cardWidth = window.innerWidth * 0.45;
@@ -106,14 +96,14 @@ export function SerParteSection() {
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => `+=${totalWidth + window.innerHeight * 1.5}`,
+        end: () => `+=${totalWidth * 2.5 + window.innerHeight * 2}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
         onUpdate: (self) => {
           // Detect which card is under the title
           const progress = self.progress;
-          const scrollX = -(totalWidth - window.innerWidth * 0.5) * ((progress - 0.26) / 0.74);
+          const scrollX = -(window.innerWidth + totalWidth - window.innerWidth * 0.5) * ((progress - 0.26) / 0.74);
 
           if (progress >= 0.26) {
             const { titleCenterX } = getTitleBounds();
@@ -165,49 +155,11 @@ export function SerParteSection() {
 
     // Phase 4: Horizontal scroll of cards (0.26-1.0)
     tl.to(cardsContainer, {
-      x: () => -(totalWidth - window.innerWidth * 0.5),
+      x: () => -(window.innerWidth + totalWidth - window.innerWidth * 0.5),
       duration: 0.74,
       ease: 'none',
     }, 0.26);
 
-    // Individual card animations - Blur/unblur images and scale cards based on position
-    cards.forEach((card, index) => {
-      const image = card.querySelector('.card-image');
-      if (!image) return;
-
-      const cardCenter = (index * (cardWidth + gap)) + (cardWidth / 2);
-
-      // Calculate when this card is in center of viewport
-      const centerProgress = 0.26 + (cardCenter / (totalWidth - window.innerWidth * 0.5)) * 0.74;
-
-      // Remove blur from image and scale up card when approaching center
-      tl.to(image, {
-        filter: 'blur(0px)',
-        duration: 0.35,
-        ease: 'power2.out',
-      }, Math.max(0.26, centerProgress - 0.6));
-
-      tl.to(card, {
-        scale: 1,
-        duration: 0.35,
-        ease: 'power2.out',
-      }, Math.max(0.26, centerProgress - 0.6));
-
-      // Add blur to image and scale down card when leaving center
-      if (index < cards.length - 1) {
-        tl.to(image, {
-          filter: 'blur(8px)',
-          duration: 0.3,
-          ease: 'power2.in',
-        }, centerProgress + 0.2);
-
-        tl.to(card, {
-          scale: 0.8,
-          duration: 0.3,
-          ease: 'power2.in',
-        }, centerProgress + 0.2);
-      }
-    });
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -223,7 +175,7 @@ export function SerParteSection() {
     { name: "Facebook", icon: Facebook, href: "https://facebook.com", ariaLabelKey: "impactSection.shareFacebook" },
     { name: "Twitter", icon: Twitter, href: "https://twitter.com", ariaLabelKey: "impactSection.shareTwitter" },
     { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com", ariaLabelKey: "impactSection.shareLinkedIn" },
-    { name: "Email", icon: Mail, href: "mailto:info@aquavita.org", ariaLabelKey: "impactSection.shareEmail" }
+    { name: "Email", icon: Mail, href: "mailto:info@wayru.pe", ariaLabelKey: "impactSection.shareEmail" }
   ];
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {

@@ -16,7 +16,7 @@ const productItems = [
     id: 'item1',
     titleKey: 'productSection.item1_title',
     descriptionKey: 'productSection.item1_description',
-    imgSrc: 'https://picsum.photos/seed/product1/800/1000',
+    imgSrc: '/images/products/product1.jpg',
     imgAlt: 'Atmospheric Water Generator',
     aiHint: 'water generator'
   },
@@ -24,7 +24,7 @@ const productItems = [
     id: 'item2',
     titleKey: 'productSection.item2_title',
     descriptionKey: 'productSection.item2_description',
-    imgSrc: 'https://picsum.photos/seed/product2/800/1000',
+    imgSrc: '/images/products/product2.jpg',
     imgAlt: 'Smart Water Filtration System',
     aiHint: 'water filter'
   },
@@ -32,7 +32,7 @@ const productItems = [
     id: 'item3',
     titleKey: 'productSection.item3_title',
     descriptionKey: 'productSection.item3_description',
-    imgSrc: 'https://picsum.photos/seed/product3/800/1000',
+    imgSrc: '/images/products/product3.jpg',
     imgAlt: 'Water Conservation Kit',
     aiHint: 'water saving'
   },

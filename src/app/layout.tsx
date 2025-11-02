@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'AquaVita',
+  title: 'Wayru',
   description: 'Preserving water, empowering communities.',
 };
 

@@ -73,7 +73,7 @@ const ContactContent = () => {
               <Mail className="h-6 w-6 text-primary mt-1 shrink-0" />
               <div>
                 <h3 className="font-semibold text-foreground">Email</h3>
-                <a href="mailto:info@aquavita.org" className="text-muted-foreground hover:text-primary">info@aquavita.org</a>
+                <a href="mailto:info@wayru.pe" className="text-muted-foreground hover:text-primary">info@wayru.pe</a>
               </div>
             </div>
             <div className="flex items-start space-x-3">

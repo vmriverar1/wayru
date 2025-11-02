@@ -96,7 +96,7 @@ export function HeroSection() {
         muted
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
-        poster="https://picsum.photos/1920/1080?grayscale&blur=2"
+        poster="/images/hero/hero-bg.jpg"
         data-ai-hint="ocean waves"
       >
         <source src="https://video-previews.elements.envatousercontent.com/4dd5f940-e661-43dc-b4f4-d6460806a7fc/watermarked_preview/watermarked_preview.mp4" type="video/mp4" />

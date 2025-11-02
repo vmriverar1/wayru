@@ -1,6 +1,6 @@
 
 {
-  "appName": "AquaVita",
+  "appName": "Wayru",
   "nav": {
     "home": "Inicio",
     "ourMission": "Nuestra Misión",
@@ -164,9 +164,9 @@
     "legalNotice": "Aviso Legal",
     "complaintsBook": "Libro de Reclamaciones",
     "social": {
-      "facebook": "AquaVita en Facebook",
-      "linkedin": "AquaVita en LinkedIn",
-      "instagram": "AquaVita en Instagram"
+      "facebook": "Wayru en Facebook",
+      "linkedin": "Wayru en LinkedIn",
+      "instagram": "Wayru en Instagram"
     }
   },
   "pages": {
@@ -191,9 +191,9 @@
       "impactPeopleEmpoweredLabel": "personas empoderadas como agentes de cambio",
       "testimonialsTitle": "Proyectos - Testimonios",
       "testimonialsDescription": "Escucha a quienes han experimentado nuestro impacto de primera mano y conoce los proyectos que marcan la diferencia.",
-      "testimonial1Quote": "El proyecto de AquaVita trajo agua limpia a nuestra aldea, cambiando nuestras vidas para siempre. Estamos más saludables y esperanzados.",
+      "testimonial1Quote": "El proyecto de Wayru trajo agua limpia a nuestra aldea, cambiando nuestras vidas para siempre. Estamos más saludables y esperanzados.",
       "testimonial1Author": "María, Líder Comunitaria",
-      "testimonial2Quote": "El nuevo sistema de riego ha impulsado nuestros cultivos e ingresos. ¡Gracias, AquaVita!",
+      "testimonial2Quote": "El nuevo sistema de riego ha impulsado nuestros cultivos e ingresos. ¡Gracias, Wayru!",
       "testimonial2Author": "Juan, Agricultor",
       "testimonial3Quote": "Aprender sobre la conservación del agua nos ha empoderado para tomar decisiones sostenibles para nuestras familias.",
       "testimonial3Author": "Elena, Participante del Taller",

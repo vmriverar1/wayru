@@ -36,7 +36,7 @@ export function ImpactSection() {
     {
       name: "Email",
       icon: <Mail size={20} className="text-primary" />,
-      href: "mailto:?subject=Check%20out%20AquaVita&body=Learn%20more%20about%20AquaVita%20here:%20[Your%20Website%20URL]", // Replace with actual mailto link
+      href: "mailto:?subject=Check%20out%20Wayru&body=Learn%20more%20about%20Wayru%20here:%20[Your%20Website%20URL]", // Replace with actual mailto link
       ariaLabel: t('impactSection.shareEmail')
     },
   ];

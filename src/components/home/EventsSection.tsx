@@ -16,7 +16,7 @@ const eventItems = [
     id: 'event1',
     titleKey: 'eventsSection.event1_title',
     descriptionKey: 'eventsSection.event1_description',
-    imgSrc: 'https://picsum.photos/seed/event1/1000/800',
+    imgSrc: '/images/events/event1.jpg',
     imgAlt: 'Water for All Workshop',
     aiHint: 'community workshop'
   },
@@ -24,7 +24,7 @@ const eventItems = [
     id: 'event2',
     titleKey: 'eventsSection.event2_title',
     descriptionKey: 'eventsSection.event2_description',
-    imgSrc: 'https://picsum.photos/seed/event2/1000/800',
+    imgSrc: '/images/events/event2.jpg',
     imgAlt: 'AquaRun Charity Event',
     aiHint: 'charity run'
   },
@@ -32,7 +32,7 @@ const eventItems = [
     id: 'event3',
     titleKey: 'eventsSection.event3_title',
     descriptionKey: 'eventsSection.event3_description',
-    imgSrc: 'https://picsum.photos/seed/event3/1000/800',
+    imgSrc: '/images/events/event3.jpg',
     imgAlt: 'Innovation Summit on Water Technology',
     aiHint: 'conference technology'
   },

@@ -19,19 +19,19 @@ const BlogContent = () => {
       date: "October 26, 2023",
       author: "Dr. Elena Aqua",
       excerpt: "Explore groundbreaking technologies like atmospheric water generation, AI-powered leak detection, and nanotech filtration that are revolutionizing how we access and manage water.",
-      imageSrc: "https://picsum.photos/seed/blog1/600/350",
+      imageSrc: "/images/blog/blog1.jpg",
       aiHint: "futuristic water technology",
-      authorImage: "https://picsum.photos/seed/author1/40/40"
+      authorImage: "/images/blog/author1.jpg"
     },
     {
       id: "2",
       title: "Community Voices: Stories from the Frontlines of Water Scarcity",
       date: "November 5, 2023",
       author: "Marco Rios",
-      excerpt: "Hear directly from communities impacted by water scarcity and how local initiatives, supported by AquaVita, are making a tangible difference in their daily lives.",
-      imageSrc: "https://picsum.photos/seed/blog2/600/350",
+      excerpt: "Hear directly from communities impacted by water scarcity and how local initiatives, supported by Wayru, are making a tangible difference in their daily lives.",
+      imageSrc: "/images/blog/blog2.jpg",
       aiHint: "village people water",
-      authorImage: "https://picsum.photos/seed/author2/40/40"
+      authorImage: "/images/blog/author2.jpg"
     },
     {
       id: "3",
@@ -39,9 +39,9 @@ const BlogContent = () => {
       date: "November 18, 2023",
       author: "Sofia Verde",
       excerpt: "Discover simple yet powerful tips for conserving water at home, in your garden, and in your community. Every drop saved contributes to a larger solution.",
-      imageSrc: "https://picsum.photos/seed/blog3/600/350",
+      imageSrc: "/images/blog/blog3.jpg",
       aiHint: "water drop hand",
-      authorImage: "https://picsum.photos/seed/author3/40/40"
+      authorImage: "/images/blog/author3.jpg"
     }
   ];
 
@@ -50,7 +50,7 @@ const BlogContent = () => {
       {/* Banner Section */}
       <div className="relative h-72 md:h-96 w-full overflow-hidden">
         <Image
-          src="https://picsum.photos/seed/blog_banner/1600/900"
+          src="/images/blog/banner.jpg"
           alt={pageTitle}
           fill
           className="object-cover"

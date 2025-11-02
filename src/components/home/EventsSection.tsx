@@ -47,18 +47,55 @@ export function EventsSection() {
 
   useEffect(() => {
     if (!sectionRef.current || !imageContainerRef.current || !textContentRef.current) return;
-    
+
     const textItems = gsap.utils.toArray<HTMLElement>('.event-item-card');
     if (textItems.length === 0) return;
+
+    const imageInner = imageContainerRef.current.querySelector('.image-scale-container') as HTMLElement;
+    if (!imageInner) return;
+
+    // Set initial scale
+    gsap.set(imageInner, { scale: 0.6 });
+
+    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2;
+
+    // Create a single timeline for the entire scale animation
+    const scaleTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${totalScrollDistance}`,
+        scrub: 1,
+      }
+    });
+
+    // Scale up at the beginning (25% of timeline)
+    scaleTimeline.to(imageInner, {
+      scale: 1,
+      ease: 'power2.out',
+      duration: 0.25,
+    });
+
+    // Stay at full scale (50% of timeline)
+    scaleTimeline.to(imageInner, {
+      scale: 1,
+      duration: 0.5,
+    });
+
+    // Scale down at the end (25% of timeline)
+    scaleTimeline.to(imageInner, {
+      scale: 0.6,
+      ease: 'power2.in',
+      duration: 0.25,
+    });
 
     ScrollTrigger.create({
       trigger: sectionRef.current,
       start: 'top top',
-      end: () => `+=${(textItems.length) * window.innerHeight - window.innerHeight / 2}`,
+      end: () => `+=${totalScrollDistance}`,
       pin: imageContainerRef.current,
       pinSpacing: true,
     });
-    
 
     textItems.forEach((itemCard) => {
       const item = eventItems.find(p => `${p.id}-trigger-event` === itemCard.id);
@@ -72,7 +109,7 @@ export function EventsSection() {
         });
       }
 
-      gsap.fromTo(itemCard.querySelector('.event-card-anim'), 
+      gsap.fromTo(itemCard.querySelector('.event-card-anim'),
         { opacity: 0, x: window.innerWidth < 768 ? 0 : -50, y: window.innerWidth < 768 ? 50 : 0 },
         {
           opacity: 1, x: 0, y: 0, duration: 0.6,
@@ -91,38 +128,34 @@ export function EventsSection() {
   }, [t]);
 
   return (
-    <section ref={sectionRef} className="bg-background text-foreground overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Title removed from here */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-0">
-          <div ref={textContentRef} className="space-y-0 md:order-1 md:pr-8 lg:pr-16">
-            {eventItems.map((item) => (
-              <div 
-                key={item.id} 
-                id={`${item.id}-trigger-event`} 
-                className="min-h-screen flex flex-col items-center justify-center event-item-card py-12 md:py-0"
-              >
-                <div className="event-card-anim w-full">
-                  <Card className="shadow-lg bg-secondary w-full max-w-lg mx-auto">
-                    <CardHeader>
-                      <CardTitle className="text-2xl text-primary">{t(item.titleKey)}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-secondary-foreground text-base leading-relaxed">
-                        {t(item.descriptionKey)}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
+    <div ref={sectionRef} className="bg-background text-foreground overflow-hidden">
+      <div className="flex">
+        {/* Text Section - Left Half */}
+        <div ref={textContentRef} className="w-full md:w-1/2 space-y-0 px-4 sm:px-6 lg:px-8">
+          {eventItems.map((item) => (
+            <div
+              key={item.id}
+              id={`${item.id}-trigger-event`}
+              className="min-h-screen flex flex-col items-center justify-center event-item-card py-12 md:py-0"
+            >
+              <div className="event-card-anim w-full max-w-lg mx-auto">
+                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+                  {t(item.titleKey)}
+                </h3>
+                <p className="text-foreground text-base md:text-lg leading-relaxed">
+                  {t(item.descriptionKey)}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div 
-            ref={imageContainerRef} 
-            className="h-screen md:sticky top-20 flex items-start justify-center md:order-2 md:pl-0" 
-          >
-            <div className="relative w-full h-full md:h-screen rounded-lg overflow-hidden shadow-2xl"> 
+        {/* Image Section - Right Half */}
+        <div
+          ref={imageContainerRef}
+          className="w-full md:w-1/2 h-screen md:sticky top-0 flex items-center justify-center overflow-hidden"
+        >
+          <div className="image-scale-container relative w-full h-full"> 
               {eventItems.map((item) => (
                 <Image
                   key={item.imgSrc}
@@ -138,10 +171,9 @@ export function EventsSection() {
                   data-ai-hint={item.aiHint}
                 />
               ))}
-            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

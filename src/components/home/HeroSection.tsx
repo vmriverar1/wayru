@@ -49,27 +49,26 @@ export function HeroSection() {
     }, startTime); 
 
     // Intro Card Animation
-    // Phase 3.1: Card appears (duration 0.15 of timeline progression)
+    // Phase 3.1: Card appears (duration 0.12 of timeline progression, from ~10% to ~12%)
     tl.fromTo(introCardRef.current,
-      { opacity: 0, top: '110vh', yPercent: -50 }, 
-      { 
-        opacity: 1, 
-        top: '45vh', 
+      { opacity: 0, top: '110vh', yPercent: -50 },
+      {
+        opacity: 1,
+        top: '45vh',
         yPercent: -50,
-        duration: 0.15, 
-        ease: 'power2.out', 
+        duration: 0.12,
+        ease: 'power2.out',
       },
-      startTime 
+      startTime
     );
-    
+
     // Phase 3.2: Card moves up and fades out.
     // Starts disappearing after being fully visible for a short period.
-    // Appearance duration is 0.15. Let it stay visible for 0.05 timeline progress.
-    // So, disappearance starts at timeline progress 0.15 + 0.05 = 0.20.
-    // Duration of disappearance is 0.05 of timeline progress.
-    // This makes it disappear earlier than the original 0.222 start.
-    const cardDisappearStartProgress = 0.20; 
-    const cardDisappearDuration = 0.05;
+    // Appearance duration is 0.12. Let it stay visible until 0.14 timeline progress.
+    // So, disappearance starts at timeline progress 0.14.
+    // Duration of disappearance is 0.01 of timeline progress (ends at 0.15).
+    const cardDisappearStartProgress = 0.14;
+    const cardDisappearDuration = 0.01;
 
     tl.to(introCardRef.current,
       { 

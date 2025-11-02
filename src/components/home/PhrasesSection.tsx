@@ -42,19 +42,20 @@ export function PhrasesSection() {
         scrub: 1,
         start: 'top top', // Start pinning when the top of this section reaches the top of viewport
         end: () => `+=${phraseRefs.current.length * window.innerHeight * 0.7}`, // Adjusted end for smoother transition
-        // markers: true, 
+        // markers: true,
       },
     });
 
     phraseRefs.current.forEach((phraseEl, index) => {
       if (!phraseEl) return;
-      
-      // Phrase appears
+
+      // Phrase appears - added delay to first phrase to give time for previous section
+      const delayOffset = 0.15; // Add 15% delay to all animations
       timeline.fromTo(
         phraseEl,
         { opacity: 0, y: 100 },
         { opacity: 1, y: 0, duration: 0.4 }, // Increased duration for smoother appearance
-        index * 1 // Stagger start times
+        (index * 1) + delayOffset // Stagger start times with initial delay
       );
 
       // Phrase disappears (except for the last one, which stays until pin ends)
@@ -62,7 +63,7 @@ export function PhrasesSection() {
         timeline.to(
           phraseEl,
           { opacity: 0, y: -100, duration: 0.4 }, // Increased duration for smoother disappearance
-          (index * 1) + 0.6 // Start disappearing before the next one is fully visible
+          (index * 1) + delayOffset + 0.6 // Start disappearing before the next one is fully visible
         );
       }
     });

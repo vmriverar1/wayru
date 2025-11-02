@@ -51,12 +51,50 @@ export function ProductSection() {
     const textItems = gsap.utils.toArray<HTMLElement>('.product-item-card');
     if (textItems.length === 0) return;
 
+    const imageInner = imageContainerRef.current.querySelector('.image-scale-container') as HTMLElement;
+    if (!imageInner) return;
+
+    // Set initial scale
+    gsap.set(imageInner, { scale: 0.6 });
+
+    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2;
+
+    // Create a single timeline for the entire scale animation
+    const scaleTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${totalScrollDistance}`,
+        scrub: 1,
+      }
+    });
+
+    // Scale up at the beginning (25% of timeline)
+    scaleTimeline.to(imageInner, {
+      scale: 1,
+      ease: 'power2.out',
+      duration: 0.25,
+    });
+
+    // Stay at full scale (50% of timeline)
+    scaleTimeline.to(imageInner, {
+      scale: 1,
+      duration: 0.5,
+    });
+
+    // Scale down at the end (25% of timeline)
+    scaleTimeline.to(imageInner, {
+      scale: 0.6,
+      ease: 'power2.in',
+      duration: 0.25,
+    });
+
     ScrollTrigger.create({
-      trigger: sectionRef.current, 
-      start: 'top top', 
-      end: () => `+=${(textItems.length) * window.innerHeight - window.innerHeight / 2}`,
+      trigger: sectionRef.current,
+      start: 'top top',
+      end: () => `+=${totalScrollDistance}`,
       pin: imageContainerRef.current,
-      pinSpacing: true, 
+      pinSpacing: true,
     });
 
     textItems.forEach((itemCard, index) => {
@@ -64,20 +102,20 @@ export function ProductSection() {
       if (item) {
         ScrollTrigger.create({
           trigger: itemCard,
-          start: 'top center', 
+          start: 'top center',
           end: 'bottom center',
           onEnter: () => setActiveImage(item.imgSrc),
           onEnterBack: () => setActiveImage(item.imgSrc),
         });
       }
-      
-      gsap.fromTo(itemCard.querySelector('.product-card-anim'), 
+
+      gsap.fromTo(itemCard.querySelector('.product-card-anim'),
         { opacity: 0, y: 50 },
         {
           opacity: 1, y: 0, duration: 0.6,
           scrollTrigger: {
             trigger: itemCard,
-            start: 'top bottom-=200px', 
+            start: 'top bottom-=200px',
             end: 'center center',
             toggleActions: 'play none none reverse',
           }
@@ -91,15 +129,14 @@ export function ProductSection() {
   }, [t]);
 
   return (
-    <section ref={sectionRef} className="bg-secondary text-secondary-foreground overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Title removed from here */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-16">
-          <div 
-            ref={imageContainerRef} 
-            className="h-screen md:sticky top-20 flex items-start justify-center" 
-          >
-            <div className="relative w-full aspect-[4/5] max-w-md md:max-w-none md:aspect-auto md:h-[70vh] rounded-lg overflow-hidden shadow-2xl">
+    <div ref={sectionRef} className="bg-background text-foreground overflow-hidden">
+      <div className="flex">
+        {/* Image Section - Left Half */}
+        <div
+          ref={imageContainerRef}
+          className="w-full md:w-1/2 h-screen md:sticky top-0 flex items-center justify-center overflow-hidden"
+        >
+          <div className="image-scale-container relative w-full h-full">
               {productItems.map((item) => (
                 <Image
                   key={item.imgSrc}
@@ -115,33 +152,29 @@ export function ProductSection() {
                   data-ai-hint={item.aiHint}
                 />
               ))}
-            </div>
           </div>
+        </div>
 
-          <div ref={textContentRef} className="space-y-0">
+        {/* Text Section - Right Half */}
+        <div ref={textContentRef} className="w-full md:w-1/2 space-y-0 px-4 sm:px-6 lg:px-8">
             {productItems.map((item) => (
-              <div 
-                key={item.id} 
-                id={`${item.id}-trigger`} 
+              <div
+                key={item.id}
+                id={`${item.id}-trigger`}
                 className="min-h-screen flex flex-col items-center justify-center product-item-card py-12 md:py-0"
               >
-                <div className="product-card-anim w-full">
-                  <Card className="shadow-lg bg-background w-full max-w-lg mx-auto">
-                    <CardHeader>
-                      <CardTitle className="text-2xl text-primary">{t(item.titleKey)}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-base leading-relaxed">
-                        {t(item.descriptionKey)}
-                      </p>
-                    </CardContent>
-                  </Card>
+                <div className="product-card-anim w-full max-w-lg mx-auto">
+                  <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+                    {t(item.titleKey)}
+                  </h3>
+                  <p className="text-foreground text-base md:text-lg leading-relaxed">
+                    {t(item.descriptionKey)}
+                  </p>
                 </div>
               </div>
             ))}
-          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

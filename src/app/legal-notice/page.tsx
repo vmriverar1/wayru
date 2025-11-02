@@ -1,3 +1,4 @@
+"use client";
 
 import { AppClientLayout } from '@/components/layout/AppClientLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

@@ -99,7 +99,7 @@ export function PhrasesSection() {
             <Card className="bg-transparent border-none shadow-none max-w-2xl">
               <CardContent className="flex flex-col items-center p-6">
                 {phrase.icon}
-                <p className="text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight">
+                <p className="text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight text-white">
                   {t(phrase.textKey)}
                 </p>
               </CardContent>

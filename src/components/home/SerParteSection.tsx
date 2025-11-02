@@ -1,27 +1,29 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useI18n } from '@/hooks/useI18n';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Facebook, Twitter, Linkedin, Mail } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Facebook, Twitter, Linkedin, Mail } from 'lucide-react';
 
-const sliderData = [
+gsap.registerPlugin(ScrollTrigger);
+
+const cardsData = [
   {
     id: 'sponsor',
     titleKey: 'serParte.slide1_title',
     descriptionKey: 'serParte.slide1_description',
     buttonKey: 'serParte.slide1_button',
     buttonAction: 'contact',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: 'https://picsum.photos/seed/sponsor/1920/1080',
     aiHint: 'community project hands'
   },
   {
@@ -30,7 +32,7 @@ const sliderData = [
     descriptionKey: 'serParte.slide2_description',
     buttonKey: 'serParte.slide2_button',
     buttonAction: 'contact',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: 'https://picsum.photos/seed/inspire/1920/1080',
     aiHint: 'people collaboration lightbulb'
   },
   {
@@ -39,46 +41,183 @@ const sliderData = [
     descriptionKey: 'serParte.slide3_description',
     buttonKey: 'serParte.slide3_button',
     buttonAction: 'social',
-    imageSrc: 'https://placehold.co/600x400.png',
+    imageSrc: 'https://picsum.photos/seed/share/1920/1080',
     aiHint: 'social media sharing'
   },
 ];
 
 export function SerParteSection() {
   const { t } = useI18n();
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   const [isSocialDialogOpen, setIsSocialDialogOpen] = useState(false);
   const [contactDialogTitleKey, setContactDialogTitleKey] = useState('serParte.contactUs');
+  const [activeCardIndex, setActiveCardIndex] = useState<number | null>(null);
 
-  const slideContainerRef = useRef<HTMLDivElement>(null);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % sliderData.length);
-  };
-
-  const handlePrev = () => {
-    setActiveIndex((prevIndex) => (prevIndex - 1 + sliderData.length) % sliderData.length);
-  };
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  const heroDescRef = useRef<HTMLParagraphElement>(null);
+  const heroHintRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastActiveIndexRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (slideContainerRef.current && slideRefs.current[activeIndex]) {
-      const targetSlide = slideRefs.current[activeIndex];
-      if (targetSlide) {
-        gsap.to(slideContainerRef.current, {
-          x: -targetSlide.offsetLeft,
-          duration: 0.5,
-          ease: 'power3.inOut',
-        });
+    if (!sectionRef.current || !heroRef.current || !cardsContainerRef.current) return;
+    if (!heroTitleRef.current || !heroDescRef.current || !heroHintRef.current) return;
+
+    const section = sectionRef.current;
+    const hero = heroRef.current;
+    const heroTitle = heroTitleRef.current;
+    const heroDesc = heroDescRef.current;
+    const heroHint = heroHintRef.current;
+    const cardsContainer = cardsContainerRef.current;
+    const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
+
+    // Set initial state - cards visible but images blurred
+    gsap.set(cardsContainer, { opacity: 0 });
+
+    // Set blur on images and scale on cards (except first one)
+    cards.forEach((card, index) => {
+      const image = card.querySelector('.card-image');
+      if (image) {
+        gsap.set(image, { filter: index === 0 ? 'blur(0px)' : 'blur(8px)' });
       }
-    }
-  }, [activeIndex]);
-  
+      // Scale the entire card
+      gsap.set(card, { scale: index === 0 ? 1 : 0.8 });
+    });
+
+    // Calculate total scroll distance - 45vw per card + gap
+    const cardWidth = window.innerWidth * 0.45;
+    const gap = 32; // 32px gap between cards
+    const totalWidth = (cards.length * cardWidth) + ((cards.length - 1) * gap);
+
+    // Get title boundaries after it shrinks (20% from top after animation)
+    const getTitleBounds = () => {
+      const viewportHeight = window.innerHeight;
+      const titleTop = viewportHeight * 0.2; // 20vh from top
+      const titleBottom = titleTop + (heroTitle.offsetHeight * 0.7); // Title height at 70% scale
+      const titleCenterX = window.innerWidth / 2;
+      return { titleTop, titleBottom, titleCenterX };
+    };
+
+    // Main timeline for horizontal scroll
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => `+=${totalWidth + window.innerHeight * 1.5}`,
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          // Detect which card is under the title
+          const progress = self.progress;
+          const scrollX = -(totalWidth - window.innerWidth * 0.5) * ((progress - 0.26) / 0.74);
+
+          if (progress >= 0.26) {
+            const { titleCenterX } = getTitleBounds();
+            const containerLeft = window.innerWidth * 0.15; // px-[15vw]
+
+            cards.forEach((card, index) => {
+              const cardLeft = containerLeft + scrollX + (index * (cardWidth + gap));
+              const cardCenter = cardLeft + (cardWidth / 2);
+
+              // Check if card center is near title center (with tolerance)
+              const tolerance = cardWidth * 0.3;
+              const isUnderTitle = cardCenter >= titleCenterX - tolerance && cardCenter <= titleCenterX + tolerance;
+
+              if (isUnderTitle) {
+                if (lastActiveIndexRef.current !== index) {
+                  lastActiveIndexRef.current = index;
+                  setActiveCardIndex(index);
+                }
+              }
+            });
+          }
+        }
+      }
+    });
+
+    // Phase 1: Hero stays visible (0-0.08 of timeline)
+    tl.to({}, { duration: 0.08 }, 0); // Pause/delay
+
+    // Phase 2: Title shrinks and moves up, description/hint fade out (0.08-0.15)
+    tl.to(heroTitle, {
+      scale: 0.7,
+      y: -window.innerHeight * 0.2,
+      duration: 0.07,
+    }, 0.08);
+
+    tl.to([heroDesc, heroHint], {
+      opacity: 0,
+      duration: 0.07,
+    }, 0.08);
+
+    // Phase 2.5: Small gap (0.15-0.16)
+    tl.to({}, { duration: 0.01 }, 0.15); // Tiny pause
+
+    // Phase 3: Show cards container (0.16-0.26)
+    tl.to(cardsContainer, {
+      opacity: 1,
+      duration: 0.1,
+    }, 0.16);
+
+    // Phase 4: Horizontal scroll of cards (0.26-1.0)
+    tl.to(cardsContainer, {
+      x: () => -(totalWidth - window.innerWidth * 0.5),
+      duration: 0.74,
+      ease: 'none',
+    }, 0.26);
+
+    // Individual card animations - Blur/unblur images and scale cards based on position
+    cards.forEach((card, index) => {
+      const image = card.querySelector('.card-image');
+      if (!image) return;
+
+      const cardCenter = (index * (cardWidth + gap)) + (cardWidth / 2);
+
+      // Calculate when this card is in center of viewport
+      const centerProgress = 0.26 + (cardCenter / (totalWidth - window.innerWidth * 0.5)) * 0.74;
+
+      // Remove blur from image and scale up card when approaching center
+      tl.to(image, {
+        filter: 'blur(0px)',
+        duration: 0.35,
+        ease: 'power2.out',
+      }, Math.max(0.26, centerProgress - 0.6));
+
+      tl.to(card, {
+        scale: 1,
+        duration: 0.35,
+        ease: 'power2.out',
+      }, Math.max(0.26, centerProgress - 0.6));
+
+      // Add blur to image and scale down card when leaving center
+      if (index < cards.length - 1) {
+        tl.to(image, {
+          filter: 'blur(8px)',
+          duration: 0.3,
+          ease: 'power2.in',
+        }, centerProgress + 0.2);
+
+        tl.to(card, {
+          scale: 0.8,
+          duration: 0.3,
+          ease: 'power2.in',
+        }, centerProgress + 0.2);
+      }
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   const openContactDialog = (titleKey: string) => {
     setContactDialogTitleKey(titleKey);
     setIsContactDialogOpen(true);
-  }
+  };
 
   const socialLinks = [
     { name: "Facebook", icon: Facebook, href: "https://facebook.com", ariaLabelKey: "impactSection.shareFacebook" },
@@ -90,109 +229,81 @@ export function SerParteSection() {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Contact form submitted");
-    alert(t('serParte.form.submitted')); 
+    alert(t('serParte.form.submitted'));
     setIsContactDialogOpen(false);
   };
 
-
   return (
-    <section id="ser-parte" className="bg-primary text-primary-foreground py-16 md:py-24 lg:py-32 overflow-hidden">
-      <div>
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Left Column: Title and Navigation */}
-          <div className="text-center md:text-left px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              {t('serParte.title')}
-            </h2>
-            <p className="text-lg md:text-xl mb-8 opacity-90">
-              {t('serParte.introText')}
-            </p>
-            <div className="flex items-center justify-center md:justify-start space-x-4">
-              <Button
-                variant="secondary"
-                size="icon"
-                onClick={handlePrev}
-                className="rounded-full w-12 h-12 bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground"
-                aria-label={t('serParte.prevSlide')}
-              >
-                <ChevronLeft size={24} />
-              </Button>
-              <span className="text-sm font-medium">
-                {activeIndex + 1} / {sliderData.length}
-              </span>
-              <Button
-                variant="secondary"
-                size="icon"
-                onClick={handleNext}
-                className="rounded-full w-12 h-12 bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground"
-                aria-label={t('serParte.nextSlide')}
-              >
-                <ChevronRight size={24} />
-              </Button>
-            </div>
-          </div>
+    <div ref={sectionRef} className="relative w-full h-screen bg-primary overflow-hidden">
+      {/* Hero Section */}
+      <div
+        ref={heroRef}
+        className="absolute inset-0 flex flex-col items-center justify-center text-primary-foreground z-10 pointer-events-none"
+      >
+        <h2 ref={heroTitleRef} className="text-5xl md:text-7xl font-bold mb-6 text-center px-4">
+          {t('serParte.title')}
+        </h2>
+        <p ref={heroDescRef} className="text-xl md:text-2xl mb-8 opacity-70 text-center max-w-3xl px-4">
+          {t('serParte.introText')}
+        </p>
+        <div ref={heroHintRef} className="flex items-center gap-2 opacity-60 animate-bounce">
+          <span className="text-sm md:text-base">Scroll para descubrir</span>
+          <ChevronRight size={20} />
+        </div>
+      </div>
 
-          {/* Right Column: Slider */}
-          <div className="relative w-full md:h-[600px] h-[550px]"> {/* Fixed height for the slider area */}
-            <div className="overflow-hidden h-full"> {/* Slider Viewport - removed rounded corners */}
-              <div ref={slideContainerRef} className="flex h-full"> {/* Slider Track */}
-                {sliderData.map((slide, index) => (
-                  <div
-                    key={slide.id}
-                    ref={(el) => (slideRefs.current[index] = el)}
-                    className="h-full flex-shrink-0"
-                    style={{ width: '85%' }} // Each slide item takes 85% of viewport width
-                  >
-                    <div className="w-full h-full flex items-center"> {/* Centered container */}
-                        <Card className="bg-background text-foreground h-full w-full flex flex-col shadow-xl overflow-hidden">
-                           {/* Image Container */}
-                          <div className="relative w-full h-48 md:h-56 flex-shrink-0">
-                            <Image
-                              src={slide.imageSrc}
-                              alt={t(slide.titleKey)} 
-                              fill
-                              className="object-cover"
-                              data-ai-hint={slide.aiHint}
-                              priority={index === 0} // Prioritize first image
-                            />
-                          </div>
-                          {/* Text Content Area */}
-                          <div className="p-4 md:p-6 flex flex-col flex-grow">
-                            <div className="flex-grow">
-                                <CardHeader className="p-0 mb-2 md:mb-4">
-                                <CardTitle className="text-xl md:text-2xl text-primary leading-tight">{t(slide.titleKey)}</CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-0">
-                                <p className="text-muted-foreground mb-4 md:mb-6 text-sm leading-relaxed">
-                                    {t(slide.descriptionKey)}
-                                </p>
-                                </CardContent>
-                            </div>
-                            <div className="mt-auto">
-                                <Button
-                                    variant="default"
-                                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-sm py-2.5 md:py-3"
-                                    onClick={() => {
-                                    if (slide.buttonAction === 'contact') {
-                                        const dialogTitle = slide.id === 'sponsor' ? 'serParte.contactUs' : 'serParte.buildWithUs';
-                                        openContactDialog(dialogTitle);
-                                    } else if (slide.buttonAction === 'social') {
-                                        setIsSocialDialogOpen(true);
-                                    }
-                                    }}
-                                >
-                                    {t(slide.buttonKey)}
-                                </Button>
-                            </div>
-                          </div>
-                        </Card>
-                    </div>
-                  </div>
-                ))}
+      {/* Cards Container - Horizontal Scroll */}
+      <div
+        ref={cardsContainerRef}
+        className="absolute top-0 left-0 h-full flex gap-8 px-[15vw] pt-[30vh]"
+      >
+        {cardsData.map((card, index) => (
+          <div
+            key={card.id}
+            ref={(el) => (cardRefs.current[index] = el)}
+            className="relative flex-shrink-0"
+            style={{ width: '45vw', height: '60vh' }}
+          >
+            {/* Card with image on top, content below */}
+            <div className="bg-background rounded-2xl shadow-2xl overflow-hidden h-full flex flex-col relative">
+              {/* Image Section */}
+              <div className="relative w-full h-1/2 flex-shrink-0 card-image">
+                <Image
+                  src={card.imageSrc}
+                  alt={t(card.titleKey)}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={card.aiHint}
+                  priority={index === 0}
+                />
+              </div>
+
+              {/* Content Section */}
+              <div className="flex-1 p-6 md:p-8 flex flex-col">
+                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+                  {t(card.titleKey)}
+                </h3>
+                <p className="text-foreground text-base md:text-lg leading-relaxed mb-6 flex-grow">
+                  {t(card.descriptionKey)}
+                </p>
+                <Button
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg py-6 pointer-events-auto"
+                  onClick={() => {
+                    if (card.buttonAction === 'contact') {
+                      const dialogTitle = card.id === 'sponsor' ? 'serParte.contactUs' : 'serParte.buildWithUs';
+                      openContactDialog(dialogTitle);
+                    } else if (card.buttonAction === 'social') {
+                      setIsSocialDialogOpen(true);
+                    }
+                  }}
+                >
+                  {t(card.buttonKey)}
+                </Button>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </div>
 
       {/* Contact Dialog */}
@@ -256,6 +367,6 @@ export function SerParteSection() {
           </div>
         </DialogContent>
       </Dialog>
-    </section>
+    </div>
   );
 }

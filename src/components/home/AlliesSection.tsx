@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { gsap } from 'gsap';
+import { AnimatedWavePath } from './AnimatedWavePath';
 
 const ALLIES_LOGOS = [
   { id: '1', src: 'https://placehold.co/120x120/ffffff/06809F.png?text=Logo+1', alt: 'Ally Logo 1', aiHint: 'company logo' },
@@ -134,8 +135,8 @@ export function AlliesSection() {
   if (!ALLIES_LOGOS.length || numPages === 0) return null;
 
   return (
-    <section id="allies-section" className="bg-primary text-primary-foreground py-16 md:py-24 lg:py-32">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section id="allies-section" className="bg-primary text-primary-foreground py-16 md:py-24 lg:py-32 relative overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           {t('alliesSection.title')}
         </h2>
@@ -206,6 +207,37 @@ export function AlliesSection() {
         >
           <Link href="/projects">{t('alliesSection.button')}</Link>
         </Button>
+      </div>
+
+      {/* Olas blancas animadas para transición */}
+      <div className="absolute bottom-0 left-0 w-full pointer-events-none z-0">
+        {/* Ola completamente blanca - más abajo */}
+        <AnimatedWavePath
+          className="fill-white"
+          opacity={1}
+          waveHeight={35}
+          speed={0.7}
+          initialOffset={200}
+          frequency={0.018}
+        />
+        {/* Ola semi-transparente - capa media */}
+        <AnimatedWavePath
+          className="fill-white"
+          opacity={0.25}
+          waveHeight={40}
+          speed={0.9}
+          initialOffset={100}
+          frequency={0.025}
+        />
+        {/* Ola más transparente - más arriba */}
+        <AnimatedWavePath
+          className="fill-white"
+          opacity={0.15}
+          waveHeight={50}
+          speed={1.2}
+          initialOffset={0}
+          frequency={0.02}
+        />
       </div>
     </section>
   );

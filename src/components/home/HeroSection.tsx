@@ -135,19 +135,19 @@ export function HeroSection() {
         </CardContent>
       </Card>
 
-      <div 
-        ref={wavesContainerRef} 
-        className="absolute bottom-0 left-0 w-full z-20 pointer-events-none" 
-        style={{ height: '250px' }} 
+      {/* Wave container - reduced height on mobile (40% of desktop) */}
+      <div
+        ref={wavesContainerRef}
+        className="absolute bottom-0 left-0 w-full z-20 pointer-events-none h-[100px] md:h-[250px]"
       >
         <div ref={waveSecondaryRef}>
-          <AnimatedWavePath className="fill-secondary" opacity={0.5} waveHeight={100} speed={0.7} initialOffset={40} frequency={0.010} />
+          <AnimatedWavePath className="fill-secondary" opacity={0.5} waveHeight={100} speed={0.7} initialOffset={40} frequency={0.010} mobileScale={0.4} />
         </div>
         <div ref={waveAccentRef}>
-          <AnimatedWavePath className="fill-accent" opacity={0.7} waveHeight={80} speed={1} initialOffset={20} frequency={0.012} />
+          <AnimatedWavePath className="fill-accent" opacity={0.7} waveHeight={80} speed={1} initialOffset={20} frequency={0.012} mobileScale={0.4} />
         </div>
-        <div ref={wavePrimaryRef}> 
-          <AnimatedWavePath className="fill-primary" opacity={1} waveHeight={60} speed={1.2} initialOffset={0} frequency={0.015} />
+        <div ref={wavePrimaryRef}>
+          <AnimatedWavePath className="fill-primary" opacity={1} waveHeight={60} speed={1.2} initialOffset={0} frequency={0.015} mobileScale={0.4} />
         </div>
       </div>
     </section>

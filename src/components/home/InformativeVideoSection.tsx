@@ -66,7 +66,7 @@ export function InformativeVideoSection() {
                 ></iframe>
               </div>
             ) : (
-              <div className="relative flex gap-4 h-[500px] group cursor-pointer" onClick={() => setShowVideo(true)}>
+              <div className="relative flex gap-4 h-[350px] md:h-[500px] group cursor-pointer" onClick={() => setShowVideo(true)}>
                 {/* Imagen grande izquierda - ocupa toda la altura */}
                 <div className="relative rounded-lg overflow-hidden shadow-xl flex-1">
                   <Image
@@ -81,7 +81,7 @@ export function InformativeVideoSection() {
                 {/* Columna derecha - centrada verticalmente con 80% de altura */}
                 <div className="flex-1 flex flex-col gap-4 justify-center">
                   {/* Imagen superior derecha - más alta (2/3 del espacio) */}
-                  <div className="relative rounded-lg overflow-hidden shadow-xl h-[267px]">
+                  <div className="relative rounded-lg overflow-hidden shadow-xl h-[187px] md:h-[267px]">
                     <Image
                       src="/images/video/purpose2.jpg"
                       alt="Propósito Wayru 2"
@@ -92,7 +92,7 @@ export function InformativeVideoSection() {
                   </div>
 
                   {/* Imagen inferior derecha - más pequeña (1/3 del espacio) */}
-                  <div className="relative rounded-lg overflow-hidden shadow-xl h-[133px]">
+                  <div className="relative rounded-lg overflow-hidden shadow-xl h-[93px] md:h-[133px]">
                     <Image
                       src="/images/video/purpose3.jpg"
                       alt="Propósito Wayru 3"

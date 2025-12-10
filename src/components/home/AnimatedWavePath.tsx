@@ -11,6 +11,7 @@ interface AnimatedWavePathProps {
   speed?: number; // Controls the speed of the wave animation
   initialOffset?: number; // Spatial horizontal offset of the wave pattern (phase shift)
   frequency?: number; // How "dense" the waves are horizontally (lower value = wider waves)
+  mobileScale?: number; // Scale factor for mobile devices (default: 1)
 }
 
 // Helper function to calculate Y value for a given X, phase, and wave parameters
@@ -32,13 +33,14 @@ const calculateY = (
   return waveCenterY + y1 + y2 + y3;
 };
 
-export function AnimatedWavePath({ 
-  className, 
-  opacity = 1, 
-  waveHeight = 50, 
+export function AnimatedWavePath({
+  className,
+  opacity = 1,
+  waveHeight = 50,
   speed = 1,
   initialOffset = 0, // This is now used as initialSpatialOffset in calculateY
-  frequency = 0.02, 
+  frequency = 0.02,
+  mobileScale = 1,
 }: AnimatedWavePathProps) {
   const pathRef = useRef<SVGPathElement>(null);
   const svgRef = useRef<SVGSVGElement>(null); // Keep svgRef in case needed for other calcs later
@@ -48,18 +50,22 @@ export function AnimatedWavePath({
 
     const pathElement = pathRef.current;
     const svgViewBoxWidth = 1000; // Matches the width in viewBox="0 0 1000 200"
-    
+
+    // Check if mobile and apply scale
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const effectiveWaveHeight = isMobile ? waveHeight * mobileScale : waveHeight;
+
     const generatePath = (currentPhase: number) => {
       // Using viewBoxWidth for point density ensures consistent detail regardless of actual SVG element size
       const numPoints = Math.max(100, Math.floor(svgViewBoxWidth / 8)); // Increased points for smoothness
       const segmentWidth = svgViewBoxWidth / numPoints;
-      
+
       // Path always starts at x=0 of the viewBox
-      let d = `M 0 ${calculateY(0, currentPhase, initialOffset, frequency, waveHeight).toFixed(2)}`;
+      let d = `M 0 ${calculateY(0, currentPhase, initialOffset, frequency, effectiveWaveHeight).toFixed(2)}`;
 
       for (let i = 1; i <= numPoints; i++) {
         const x = i * segmentWidth;
-        const yVal = calculateY(x, currentPhase, initialOffset, frequency, waveHeight);
+        const yVal = calculateY(x, currentPhase, initialOffset, frequency, effectiveWaveHeight);
         d += ` L ${x.toFixed(2)} ${yVal.toFixed(2)}`;
       }
       
@@ -102,18 +108,22 @@ export function AnimatedWavePath({
       window.removeEventListener('resize', handleResize);
     };
 
-  }, [waveHeight, speed, initialOffset, frequency, opacity, className]);
+  }, [waveHeight, speed, initialOffset, frequency, opacity, className, mobileScale]);
+
+  // Calculate effective height for mobile
+  const isMobileForStyle = typeof window !== 'undefined' && window.innerWidth < 768;
+  const effectiveHeightForStyle = isMobileForStyle ? waveHeight * mobileScale : waveHeight;
 
   return (
-    <svg 
+    <svg
       ref={svgRef}
-      viewBox="0 0 1000 200" 
-      preserveAspectRatio="none" 
+      viewBox="0 0 1000 200"
+      preserveAspectRatio="none"
       className="absolute bottom-0 left-0 w-full h-auto block"
-      style={{ 
-        height: `${Math.max(80, waveHeight * 2.0)}px`, 
+      style={{
+        height: `${Math.max(80, effectiveHeightForStyle * 2.0)}px`,
         opacity: opacity
-      }} 
+      }}
     >
       <path ref={pathRef} className={className} />
     </svg>

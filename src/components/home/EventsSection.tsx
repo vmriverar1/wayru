@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useI18n } from '@/hooks/useI18n';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -41,135 +40,289 @@ const eventItems = [
 export function EventsSection() {
   const { t } = useI18n();
   const sectionRef = useRef<HTMLDivElement>(null);
-  const imageContainerRef = useRef<HTMLDivElement>(null); 
-  const textContentRef = useRef<HTMLDivElement>(null); 
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const textContentRef = useRef<HTMLDivElement>(null);
   const [activeImage, setActiveImage] = useState(eventItems[0].imgSrc);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current || !imageContainerRef.current || !textContentRef.current) return;
 
-    const textItems = gsap.utils.toArray<HTMLElement>('.event-item-card');
-    if (textItems.length === 0) return;
+    const isMobileView = window.innerWidth < 768;
 
-    const imageInner = imageContainerRef.current.querySelector('.image-scale-container') as HTMLElement;
-    if (!imageInner) return;
+    if (isMobileView) {
+      // ========== MOBILE LAYOUT ==========
+      const textItems = gsap.utils.toArray<HTMLElement>('.event-item-card');
+      if (textItems.length === 0) return;
 
-    // Set initial scale
-    gsap.set(imageInner, { scale: 0.6 });
+      const imageInner = imageContainerRef.current.querySelector('.image-scale-container') as HTMLElement;
+      if (!imageInner) return;
 
-    // Extra scroll distance for the initial phase:
-    // - Image scale-up: 0.5 viewport height
-    // - Reading time (image big + first text visible): 0.7 viewport height
-    const imageScaleUpDistance = window.innerHeight * 0.5;
-    const readingTimeDistance = window.innerHeight * 0.7;
-    const initialPinDistance = imageScaleUpDistance + readingTimeDistance;
-    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2 + initialPinDistance;
+      // Set initial scale for mobile
+      gsap.set(imageInner, { scale: 0.7 });
 
-    // Create a single timeline for the entire scale animation
-    const scaleTimeline = gsap.timeline({
-      scrollTrigger: {
+      // Mobile distances
+      const imageScaleUpDistance = window.innerHeight * 0.4;
+      const readingTimeDistance = window.innerHeight * 0.5;
+      const initialPinDistance = imageScaleUpDistance + readingTimeDistance;
+      // Each text item takes 60% of viewport height in mobile
+      const perItemDistance = window.innerHeight * 0.6;
+      const totalScrollDistance = initialPinDistance + (textItems.length * perItemDistance);
+
+      // Timeline for image scale animation
+      const scaleTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: () => `+=${totalScrollDistance}`,
+          scrub: 1,
+        }
+      });
+
+      const scaleUpProportion = imageScaleUpDistance / totalScrollDistance;
+      const readingProportion = readingTimeDistance / totalScrollDistance;
+      const remainingProportion = 1 - scaleUpProportion - readingProportion;
+
+      // Scale up the image
+      scaleTimeline.to(imageInner, {
+        scale: 1,
+        ease: 'power2.out',
+        duration: scaleUpProportion,
+      });
+
+      // Stay at full scale
+      scaleTimeline.to(imageInner, {
+        scale: 1,
+        duration: readingProportion + remainingProportion * 0.8,
+      });
+
+      // Scale down at the end
+      scaleTimeline.to(imageInner, {
+        scale: 0.7,
+        ease: 'power2.in',
+        duration: remainingProportion * 0.2,
+      });
+
+      // Pin image container for the entire section
+      ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
         end: () => `+=${totalScrollDistance}`,
-        scrub: 1,
-      }
-    });
+        pin: imageContainerRef.current,
+        pinSpacing: false,
+      });
 
-    // Calculate proportions based on distances
-    const scaleUpProportion = imageScaleUpDistance / totalScrollDistance;
-    const readingProportion = readingTimeDistance / totalScrollDistance;
-    const remainingProportion = 1 - scaleUpProportion - readingProportion;
+      // Pin text container during initial phase
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${initialPinDistance}`,
+        pin: textContentRef.current,
+        pinSpacing: false,
+      });
 
-    // Scale up at the beginning - image grows while first text stays visible
-    scaleTimeline.to(imageInner, {
-      scale: 1,
-      ease: 'power2.out',
-      duration: scaleUpProportion,
-    });
-
-    // Stay at full scale during reading time + most of content scrolling
-    scaleTimeline.to(imageInner, {
-      scale: 1,
-      duration: readingProportion + remainingProportion * 0.7,
-    });
-
-    // Scale down at the end
-    scaleTimeline.to(imageInner, {
-      scale: 0.6,
-      ease: 'power2.in',
-      duration: remainingProportion * 0.3,
-    });
-
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: () => `+=${totalScrollDistance}`,
-      pin: imageContainerRef.current,
-      pinSpacing: true,
-    });
-
-    // Pin the entire text container during the initial phase (image scale-up + reading time)
-    // This prevents ALL texts from scrolling until the image is fully scaled and user has time to read
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: () => `+=${initialPinDistance}`,
-      pin: textContentRef.current,
-      pinSpacing: false,
-    });
-
-    // Calculate scroll distance for content phase (after initial pin)
-    const contentScrollDistance = totalScrollDistance - initialPinDistance;
-    const scrollPerItem = contentScrollDistance / textItems.length;
-
-    // Create a ScrollTrigger to track image changes based on scroll progress after initial phase
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: () => `top+=${initialPinDistance} top`,
-      end: () => `+=${contentScrollDistance}`,
-      onUpdate: (self) => {
-        // Calculate which item should be active based on scroll progress
-        const progress = self.progress;
-        const itemIndex = Math.min(
-          Math.floor(progress * textItems.length),
-          textItems.length - 1
-        );
-        const item = eventItems[itemIndex];
-        if (item) {
-          setActiveImage(item.imgSrc);
-        }
-      },
-    });
-
-    textItems.forEach((itemCard) => {
-      gsap.fromTo(itemCard.querySelector('.event-card-anim'),
-        { opacity: 0, x: window.innerWidth < 768 ? 0 : -50, y: window.innerWidth < 768 ? 50 : 0 },
-        {
-          opacity: 1, x: 0, y: 0, duration: 0.6,
-          scrollTrigger: {
-            trigger: itemCard,
-            start: 'top bottom-=150px',
-            toggleActions: 'play none none reverse',
+      // Track image changes based on scroll progress after initial phase
+      const contentScrollDistance = totalScrollDistance - initialPinDistance;
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: () => `top+=${initialPinDistance} top`,
+        end: () => `+=${contentScrollDistance}`,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const itemIndex = Math.min(
+            Math.floor(progress * textItems.length),
+            textItems.length - 1
+          );
+          const item = eventItems[itemIndex];
+          if (item) {
+            setActiveImage(item.imgSrc);
           }
+        },
+      });
+
+      // Animate text items
+      textItems.forEach((itemCard) => {
+        gsap.fromTo(itemCard.querySelector('.event-card-anim'),
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0, duration: 0.5,
+            scrollTrigger: {
+              trigger: itemCard,
+              start: 'top bottom-=100px',
+              end: 'center center',
+              toggleActions: 'play none none reverse',
+            }
+          }
+        );
+      });
+
+    } else {
+      // ========== DESKTOP LAYOUT ==========
+      const textItems = gsap.utils.toArray<HTMLElement>('.event-item-card');
+      if (textItems.length === 0) return;
+
+      const imageInner = imageContainerRef.current.querySelector('.image-scale-container') as HTMLElement;
+      if (!imageInner) return;
+
+      // Set initial scale
+      gsap.set(imageInner, { scale: 0.6 });
+
+      const imageScaleUpDistance = window.innerHeight * 0.5;
+      const readingTimeDistance = window.innerHeight * 0.7;
+      const initialPinDistance = imageScaleUpDistance + readingTimeDistance;
+      const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2 + initialPinDistance;
+
+      const scaleTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: () => `+=${totalScrollDistance}`,
+          scrub: 1,
         }
-      );
-    });
+      });
+
+      const scaleUpProportion = imageScaleUpDistance / totalScrollDistance;
+      const readingProportion = readingTimeDistance / totalScrollDistance;
+      const remainingProportion = 1 - scaleUpProportion - readingProportion;
+
+      scaleTimeline.to(imageInner, {
+        scale: 1,
+        ease: 'power2.out',
+        duration: scaleUpProportion,
+      });
+
+      scaleTimeline.to(imageInner, {
+        scale: 1,
+        duration: readingProportion + remainingProportion * 0.7,
+      });
+
+      scaleTimeline.to(imageInner, {
+        scale: 0.6,
+        ease: 'power2.in',
+        duration: remainingProportion * 0.3,
+      });
+
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${totalScrollDistance}`,
+        pin: imageContainerRef.current,
+        pinSpacing: true,
+      });
+
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${initialPinDistance}`,
+        pin: textContentRef.current,
+        pinSpacing: false,
+      });
+
+      const contentScrollDistance = totalScrollDistance - initialPinDistance;
+
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: () => `top+=${initialPinDistance} top`,
+        end: () => `+=${contentScrollDistance}`,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const itemIndex = Math.min(
+            Math.floor(progress * textItems.length),
+            textItems.length - 1
+          );
+          const item = eventItems[itemIndex];
+          if (item) {
+            setActiveImage(item.imgSrc);
+          }
+        },
+      });
+
+      textItems.forEach((itemCard) => {
+        gsap.fromTo(itemCard.querySelector('.event-card-anim'),
+          { opacity: 0, x: -50 },
+          {
+            opacity: 1, x: 0, duration: 0.6,
+            scrollTrigger: {
+              trigger: itemCard,
+              start: 'top bottom-=150px',
+              toggleActions: 'play none none reverse',
+            }
+          }
+        );
+      });
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [t]);
+  }, [t, isMobile]);
 
   return (
     <div ref={sectionRef} className="bg-background text-foreground overflow-hidden">
-      <div className="flex">
-        {/* Text Section - Left Half */}
-        <div ref={textContentRef} className="w-full md:w-1/2 space-y-0 px-4 sm:px-6 lg:px-8">
+      {/* Mobile: vertical layout (image top, text bottom) */}
+      {/* Desktop: horizontal layout (text left, image right) */}
+      <div className="flex flex-col md:flex-row">
+        {/* Image Section - On mobile: first (top), On desktop: second (right) */}
+        <div
+          ref={imageContainerRef}
+          className={cn(
+            "w-full overflow-hidden",
+            // Mobile: fixed at top, 40% height with top padding for header
+            "h-[40vh] pt-16 order-first",
+            // Desktop: half width, full height, sticky, order second (right side)
+            "md:w-1/2 md:h-screen md:pt-0 md:sticky md:top-0 md:flex md:items-center md:justify-center md:order-last"
+          )}
+        >
+          <div className="image-scale-container relative w-full h-full">
+            {eventItems.map((item) => (
+              <Image
+                key={item.imgSrc}
+                src={item.imgSrc}
+                alt={t(item.titleKey)}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className={cn(
+                  'object-cover transition-opacity duration-700 ease-in-out',
+                  activeImage === item.imgSrc ? 'opacity-100' : 'opacity-0'
+                )}
+                priority={item.id === 'event1'}
+                data-ai-hint={item.aiHint}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Text Section - On mobile: second (bottom), On desktop: first (left) */}
+        <div
+          ref={textContentRef}
+          className={cn(
+            "w-full px-4 sm:px-6 lg:px-8",
+            // Mobile: below image, 60% viewport height per item
+            "order-last",
+            // Desktop: half width, order first (left side)
+            "md:w-1/2 md:order-first"
+          )}
+        >
           {eventItems.map((item) => (
             <div
               key={item.id}
               id={`${item.id}-trigger-event`}
-              className="min-h-screen flex flex-col items-center justify-center event-item-card py-12 md:py-0"
+              className={cn(
+                "flex flex-col items-center justify-center event-item-card",
+                // Mobile: 60vh height, centered
+                "min-h-[60vh] py-8",
+                // Desktop: full screen height
+                "md:min-h-screen md:py-0"
+              )}
             >
               <div className="event-card-anim w-full max-w-lg mx-auto">
                 <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
@@ -181,30 +334,6 @@ export function EventsSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Image Section - Right Half */}
-        <div
-          ref={imageContainerRef}
-          className="w-full md:w-1/2 h-screen md:sticky top-0 flex items-center justify-center overflow-hidden"
-        >
-          <div className="image-scale-container relative w-full h-full"> 
-              {eventItems.map((item) => (
-                <Image
-                  key={item.imgSrc}
-                  src={item.imgSrc}
-                  alt={t(item.titleKey)}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className={cn(
-                    'object-cover transition-opacity duration-700 ease-in-out',
-                    activeImage === item.imgSrc ? 'opacity-100' : 'opacity-0'
-                  )}
-                  priority={item.id === 'event1'}
-                  data-ai-hint={item.aiHint}
-                />
-              ))}
-          </div>
         </div>
       </div>
     </div>

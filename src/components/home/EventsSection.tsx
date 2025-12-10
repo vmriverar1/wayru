@@ -118,18 +118,30 @@ export function EventsSection() {
       pinSpacing: false,
     });
 
-    textItems.forEach((itemCard) => {
-      const item = eventItems.find(p => `${p.id}-trigger-event` === itemCard.id);
-      if (item) {
-        ScrollTrigger.create({
-          trigger: itemCard,
-          start: 'top center',
-          end: 'bottom center',
-          onEnter: () => setActiveImage(item.imgSrc),
-          onEnterBack: () => setActiveImage(item.imgSrc),
-        });
-      }
+    // Calculate scroll distance for content phase (after initial pin)
+    const contentScrollDistance = totalScrollDistance - initialPinDistance;
+    const scrollPerItem = contentScrollDistance / textItems.length;
 
+    // Create a ScrollTrigger to track image changes based on scroll progress after initial phase
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: () => `top+=${initialPinDistance} top`,
+      end: () => `+=${contentScrollDistance}`,
+      onUpdate: (self) => {
+        // Calculate which item should be active based on scroll progress
+        const progress = self.progress;
+        const itemIndex = Math.min(
+          Math.floor(progress * textItems.length),
+          textItems.length - 1
+        );
+        const item = eventItems[itemIndex];
+        if (item) {
+          setActiveImage(item.imgSrc);
+        }
+      },
+    });
+
+    textItems.forEach((itemCard) => {
       gsap.fromTo(itemCard.querySelector('.event-card-anim'),
         { opacity: 0, x: window.innerWidth < 768 ? 0 : -50, y: window.innerWidth < 768 ? 50 : 0 },
         {

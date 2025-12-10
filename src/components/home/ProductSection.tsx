@@ -42,6 +42,7 @@ export function ProductSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const textContentRef = useRef<HTMLDivElement>(null);
+  const sectionWrapperRef = useRef<HTMLDivElement>(null);
   const [activeImage, setActiveImage] = useState(productItems[0].imgSrc);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -165,6 +166,21 @@ export function ProductSection() {
         );
       });
 
+      // Mobile: Fade out the entire section at the end to avoid white space
+      if (sectionWrapperRef.current) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: () => `top+=${totalScrollDistance - window.innerHeight * 0.3} top`,
+          end: () => `top+=${totalScrollDistance} top`,
+          scrub: true,
+          onUpdate: (self) => {
+            if (sectionWrapperRef.current) {
+              gsap.set(sectionWrapperRef.current, { opacity: 1 - self.progress });
+            }
+          },
+        });
+      }
+
     } else {
       // ========== DESKTOP LAYOUT ==========
       const textItems = gsap.utils.toArray<HTMLElement>('.product-item-card');
@@ -271,7 +287,7 @@ export function ProductSection() {
     <div ref={sectionRef} className="bg-background text-foreground overflow-hidden">
       {/* Mobile: vertical layout (image top, text bottom) */}
       {/* Desktop: horizontal layout (image left, text right) */}
-      <div className="flex flex-col md:flex-row">
+      <div ref={sectionWrapperRef} className="flex flex-col md:flex-row">
         {/* Image Section */}
         <div
           ref={imageContainerRef}

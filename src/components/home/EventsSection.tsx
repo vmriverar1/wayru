@@ -42,6 +42,7 @@ export function EventsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const textContentRef = useRef<HTMLDivElement>(null);
+  const sectionWrapperRef = useRef<HTMLDivElement>(null);
   const [activeImage, setActiveImage] = useState(eventItems[0].imgSrc);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -165,6 +166,21 @@ export function EventsSection() {
         );
       });
 
+      // Mobile: Fade out the entire section at the end to avoid white space
+      if (sectionWrapperRef.current) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: () => `top+=${totalScrollDistance - window.innerHeight * 0.3} top`,
+          end: () => `top+=${totalScrollDistance} top`,
+          scrub: true,
+          onUpdate: (self) => {
+            if (sectionWrapperRef.current) {
+              gsap.set(sectionWrapperRef.current, { opacity: 1 - self.progress });
+            }
+          },
+        });
+      }
+
     } else {
       // ========== DESKTOP LAYOUT ==========
       const textItems = gsap.utils.toArray<HTMLElement>('.event-item-card');
@@ -270,7 +286,7 @@ export function EventsSection() {
     <div ref={sectionRef} className="bg-background text-foreground overflow-hidden">
       {/* Mobile: vertical layout (image top, text bottom) */}
       {/* Desktop: horizontal layout (text left, image right) */}
-      <div className="flex flex-col md:flex-row">
+      <div ref={sectionWrapperRef} className="flex flex-col md:flex-row">
         {/* Image Section - On mobile: first (top), On desktop: second (right) */}
         <div
           ref={imageContainerRef}

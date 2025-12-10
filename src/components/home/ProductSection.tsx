@@ -71,7 +71,7 @@ export function ProductSection() {
       // Set initial scale for mobile
       gsap.set(imageInner, { scale: 0.7 });
 
-      // Mobile distances
+      // Mobile distances - text area is 60vh per item
       const imageScaleUpDistance = window.innerHeight * 0.4;
       const readingTimeDistance = window.innerHeight * 0.5;
       const initialPinDistance = imageScaleUpDistance + readingTimeDistance;
@@ -113,22 +113,29 @@ export function ProductSection() {
         duration: remainingProportion * 0.2,
       });
 
-      // Pin image container for the entire section
+      // Pin the entire section wrapper for mobile
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
         end: () => `+=${totalScrollDistance}`,
-        pin: imageContainerRef.current,
-        pinSpacing: false,
+        pin: true,
+        pinSpacing: true,
       });
 
-      // Pin text container during initial phase
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: () => `+=${initialPinDistance}`,
-        pin: textContentRef.current,
-        pinSpacing: false,
+      // Animate text scrolling within the pinned section
+      const textScrollTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: () => `top+=${initialPinDistance} top`,
+          end: () => `+=${textItems.length * perItemDistance}`,
+          scrub: 1,
+        }
+      });
+
+      // Move text content up as we scroll
+      textScrollTimeline.to(textContentRef.current, {
+        y: () => -(textItems.length - 1) * window.innerHeight * 0.6,
+        ease: 'none',
       });
 
       // Track image changes based on scroll progress after initial phase
@@ -148,22 +155,6 @@ export function ProductSection() {
             setActiveImage(item.imgSrc);
           }
         },
-      });
-
-      // Animate text items
-      textItems.forEach((itemCard) => {
-        gsap.fromTo(itemCard.querySelector('.product-card-anim'),
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1, y: 0, duration: 0.5,
-            scrollTrigger: {
-              trigger: itemCard,
-              start: 'top bottom-=100px',
-              end: 'center center',
-              toggleActions: 'play none none reverse',
-            }
-          }
-        );
       });
 
       // Mobile: Fade out the entire section at the end to avoid white space
@@ -285,18 +276,21 @@ export function ProductSection() {
 
   return (
     <div ref={sectionRef} className="bg-background text-foreground overflow-hidden">
-      {/* Mobile: vertical layout (image top, text bottom) */}
-      {/* Desktop: horizontal layout (image left, text right) */}
-      <div ref={sectionWrapperRef} className="flex flex-col md:flex-row">
+      <div ref={sectionWrapperRef} className={cn(
+        // Mobile: stacked layout with fixed heights
+        "relative min-h-screen",
+        // Desktop: side by side
+        "md:flex md:flex-row"
+      )}>
         {/* Image Section */}
         <div
           ref={imageContainerRef}
           className={cn(
             "w-full overflow-hidden",
-            // Mobile: fixed at top, 40% height with top padding for header
-            "h-[40vh] pt-16",
+            // Mobile: fixed at top of section, 40% height with top padding for header
+            "absolute top-0 left-0 right-0 h-[40vh] pt-16 z-10",
             // Desktop: half width, full height, sticky
-            "md:w-1/2 md:h-screen md:pt-0 md:sticky md:top-0 md:flex md:items-center md:justify-center"
+            "md:relative md:w-1/2 md:h-screen md:pt-0 md:sticky md:top-0 md:flex md:items-center md:justify-center md:z-auto"
           )}
         >
           <div className="image-scale-container relative w-full h-full">
@@ -323,20 +317,22 @@ export function ProductSection() {
           ref={textContentRef}
           className={cn(
             "w-full px-4 sm:px-6 lg:px-8",
-            // Mobile: below image, 60% viewport height per item
-            "md:w-1/2"
+            // Mobile: starts below image area (40vh margin top), each item 60vh
+            "mt-[40vh]",
+            // Desktop: half width, no margin
+            "md:w-1/2 md:mt-0"
           )}
         >
-          {productItems.map((item) => (
+          {productItems.map((item, index) => (
             <div
               key={item.id}
               id={`${item.id}-trigger`}
               className={cn(
                 "flex flex-col items-center justify-center product-item-card",
                 // Mobile: 60vh height, centered
-                "min-h-[60vh] py-8",
+                "h-[60vh]",
                 // Desktop: full screen height
-                "md:min-h-screen md:py-0"
+                "md:min-h-screen md:h-auto"
               )}
             >
               <div className="product-card-anim w-full max-w-lg mx-auto">

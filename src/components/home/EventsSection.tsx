@@ -57,7 +57,13 @@ export function EventsSection() {
     // Set initial scale
     gsap.set(imageInner, { scale: 0.6 });
 
-    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2;
+    // Extra scroll distance for the initial phase:
+    // - Image scale-up: 0.5 viewport height
+    // - Reading time (image big + first text visible): 0.7 viewport height
+    const imageScaleUpDistance = window.innerHeight * 0.5;
+    const readingTimeDistance = window.innerHeight * 0.7;
+    const initialPinDistance = imageScaleUpDistance + readingTimeDistance;
+    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2 + initialPinDistance;
 
     // Create a single timeline for the entire scale animation
     const scaleTimeline = gsap.timeline({
@@ -69,24 +75,29 @@ export function EventsSection() {
       }
     });
 
-    // Scale up at the beginning (25% of timeline)
+    // Calculate proportions based on distances
+    const scaleUpProportion = imageScaleUpDistance / totalScrollDistance;
+    const readingProportion = readingTimeDistance / totalScrollDistance;
+    const remainingProportion = 1 - scaleUpProportion - readingProportion;
+
+    // Scale up at the beginning - image grows while first text stays visible
     scaleTimeline.to(imageInner, {
       scale: 1,
       ease: 'power2.out',
-      duration: 0.25,
+      duration: scaleUpProportion,
     });
 
-    // Stay at full scale (50% of timeline)
+    // Stay at full scale during reading time + most of content scrolling
     scaleTimeline.to(imageInner, {
       scale: 1,
-      duration: 0.5,
+      duration: readingProportion + remainingProportion * 0.7,
     });
 
-    // Scale down at the end (25% of timeline)
+    // Scale down at the end
     scaleTimeline.to(imageInner, {
       scale: 0.6,
       ease: 'power2.in',
-      duration: 0.25,
+      duration: remainingProportion * 0.3,
     });
 
     ScrollTrigger.create({
@@ -96,6 +107,18 @@ export function EventsSection() {
       pin: imageContainerRef.current,
       pinSpacing: true,
     });
+
+    // Pin the first text item during the initial image scale-up phase
+    const firstTextItem = textItems[0];
+    if (firstTextItem) {
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${initialPinDistance}`,
+        pin: firstTextItem,
+        pinSpacing: false,
+      });
+    }
 
     textItems.forEach((itemCard) => {
       const item = eventItems.find(p => `${p.id}-trigger-event` === itemCard.id);

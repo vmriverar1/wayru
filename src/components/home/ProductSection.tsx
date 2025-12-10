@@ -108,17 +108,15 @@ export function ProductSection() {
       pinSpacing: true,
     });
 
-    // Pin the first text item during the initial image scale-up phase
-    const firstTextItem = textItems[0];
-    if (firstTextItem) {
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: () => `+=${initialPinDistance}`,
-        pin: firstTextItem,
-        pinSpacing: false,
-      });
-    }
+    // Pin the entire text container during the initial phase (image scale-up + reading time)
+    // This prevents ALL texts from scrolling until the image is fully scaled and user has time to read
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: 'top top',
+      end: () => `+=${initialPinDistance}`,
+      pin: textContentRef.current,
+      pinSpacing: false,
+    });
 
     textItems.forEach((itemCard, index) => {
       const item = productItems.find(p => `${p.id}-trigger` === itemCard.id);

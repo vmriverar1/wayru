@@ -74,12 +74,14 @@ export function SerParteSection() {
     const cardsContainer = cardsContainerRef.current;
     const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
 
+    const isMobileView = window.innerWidth < 768;
+
     // Set initial state - cards visible
     gsap.set(cardsContainer, { opacity: 0 });
 
-    // Calculate total scroll distance - 45vw per card + gap
-    const cardWidth = window.innerWidth * 0.45;
-    const gap = 32; // 32px gap between cards
+    // Calculate total scroll distance - 80vw per card on mobile, 45vw on desktop
+    const cardWidth = isMobileView ? window.innerWidth * 0.80 : window.innerWidth * 0.45;
+    const gap = isMobileView ? 16 : 32; // Smaller gap on mobile
     const totalWidth = (cards.length * cardWidth) + ((cards.length - 1) * gap);
 
     // Get title boundaries after it shrinks (20% from top after animation)
@@ -91,12 +93,15 @@ export function SerParteSection() {
       return { titleTop, titleBottom, titleCenterX };
     };
 
+    // Adjust scroll multiplier for mobile (cards are wider, need more scroll distance)
+    const scrollMultiplier = isMobileView ? 3.5 : 2.5;
+
     // Main timeline for horizontal scroll
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => `+=${totalWidth * 2.5 + window.innerHeight * 2}`,
+        end: () => `+=${totalWidth * scrollMultiplier + window.innerHeight * 2}`,
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -192,29 +197,28 @@ export function SerParteSection() {
         ref={heroRef}
         className="absolute inset-0 flex flex-col items-center justify-center text-primary-foreground z-10 pointer-events-none"
       >
-        <h2 ref={heroTitleRef} className="text-5xl md:text-7xl font-bold mb-6 text-center px-4">
+        <h2 ref={heroTitleRef} className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 text-center px-4">
           {t('serParte.title')}
         </h2>
-        <p ref={heroDescRef} className="text-xl md:text-2xl mb-8 opacity-70 text-center max-w-3xl px-4">
+        <p ref={heroDescRef} className="text-base sm:text-xl md:text-2xl mb-6 md:mb-8 opacity-70 text-center max-w-3xl px-4">
           {t('serParte.introText')}
         </p>
         <div ref={heroHintRef} className="flex items-center gap-2 opacity-60 animate-bounce">
-          <span className="text-sm md:text-base">Scroll para descubrir</span>
-          <ChevronRight size={20} />
+          <span className="text-xs sm:text-sm md:text-base">Scroll para descubrir</span>
+          <ChevronRight size={18} className="md:w-5 md:h-5" />
         </div>
       </div>
 
       {/* Cards Container - Horizontal Scroll */}
       <div
         ref={cardsContainerRef}
-        className="absolute top-0 left-0 h-full flex gap-8 pl-[100vw] pr-[15vw] pt-[30vh]"
+        className="absolute top-0 left-0 h-full flex gap-4 md:gap-8 pl-[100vw] pr-[10vw] md:pr-[15vw] pt-[25vh] md:pt-[30vh]"
       >
         {cardsData.map((card, index) => (
           <div
             key={card.id}
             ref={(el) => (cardRefs.current[index] = el)}
-            className="relative flex-shrink-0"
-            style={{ width: '45vw', height: '60vh' }}
+            className="relative flex-shrink-0 w-[80vw] md:w-[45vw] h-[65vh] md:h-[60vh]"
           >
             {/* Card with image on top, content below */}
             <div className="bg-background rounded-2xl shadow-2xl overflow-hidden h-full flex flex-col relative">
@@ -231,16 +235,16 @@ export function SerParteSection() {
               </div>
 
               {/* Content Section */}
-              <div className="flex-1 p-6 md:p-8 flex flex-col">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+              <div className="flex-1 p-4 md:p-8 flex flex-col">
+                <h3 className="text-xl md:text-3xl font-bold text-primary mb-2 md:mb-4">
                   {t(card.titleKey)}
                 </h3>
-                <p className="text-foreground text-base md:text-lg leading-relaxed mb-6 flex-grow">
+                <p className="text-foreground text-sm md:text-lg leading-relaxed mb-4 md:mb-6 flex-grow">
                   {t(card.descriptionKey)}
                 </p>
                 <Button
                   size="lg"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg py-6 pointer-events-auto"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base md:text-lg py-4 md:py-6 pointer-events-auto"
                   onClick={() => {
                     if (card.buttonAction === 'contact') {
                       const dialogTitle = card.id === 'sponsor' ? 'serParte.contactUs' : 'serParte.buildWithUs';

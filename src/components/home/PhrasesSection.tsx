@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Users, MapPin } from 'lucide-react';
@@ -14,6 +14,12 @@ export function PhrasesSection() {
   const { t } = useI18n();
   const sectionRef = useRef<HTMLDivElement>(null);
   const phraseRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure we're on the client before running animations
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const phrasesData = [
     {
@@ -27,13 +33,18 @@ export function PhrasesSection() {
   ];
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    if (!sectionRef.current || !isClient) return;
 
     // Ensure GSAP animations run after Hero's intro card is likely done.
     // This section starts when its top hits the center of the viewport.
     // The Hero's intro card animation duration and disappearance should be considered.
     // Current setup relies on natural flow. If HeroSection's total scrollable length changes,
     // this section's start trigger might need adjustment if strict sequential animation is desired.
+
+    // Small delay to ensure DOM is ready, especially on mobile
+    const initTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
 
     const timeline = gsap.timeline({
       scrollTrigger: {
@@ -72,6 +83,7 @@ export function PhrasesSection() {
     // GSAP automatically handles this by not animating it out if it's the last in the sequence before pin ends.
 
     return () => {
+      clearTimeout(initTimeout);
       ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.trigger === sectionRef.current) {
           trigger.kill();
@@ -79,7 +91,7 @@ export function PhrasesSection() {
       });
       timeline.kill();
     };
-  }, [t]);
+  }, [t, isClient]);
 
   return (
     <section 

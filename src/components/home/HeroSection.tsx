@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatedWavePath } from './AnimatedWavePath';
@@ -16,14 +16,26 @@ export function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const wavesContainerRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
-  const introCardRef = useRef<HTMLDivElement>(null); 
-  
+  const introCardRef = useRef<HTMLDivElement>(null);
+
   const waveSecondaryRef = useRef<HTMLDivElement>(null);
   const waveAccentRef = useRef<HTMLDivElement>(null);
-  const wavePrimaryRef = useRef<HTMLDivElement>(null); 
+  const wavePrimaryRef = useRef<HTMLDivElement>(null);
+
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
     if (!heroRef.current || !wavesContainerRef.current || !heroContentRef.current || !introCardRef.current || !waveSecondaryRef.current || !waveAccentRef.current || !wavePrimaryRef.current) return;
+
+    // Refresh ScrollTrigger after a small delay to ensure DOM is ready on mobile
+    const initTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
 
     gsap.fromTo(
       heroContentRef.current.querySelectorAll('.hero-text-animate > *'), 
@@ -82,11 +94,12 @@ export function HeroSection() {
     );
     
     return () => {
+      clearTimeout(initTimeout);
       tl.kill();
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     }
 
-  }, [t]);
+  }, [t, isClient]);
 
   return (
     <section ref={heroRef} id="hero-section" className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden p-0">

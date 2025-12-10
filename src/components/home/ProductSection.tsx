@@ -57,7 +57,9 @@ export function ProductSection() {
     // Set initial scale
     gsap.set(imageInner, { scale: 0.6 });
 
-    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2;
+    // Extra scroll distance for the initial image scale-up phase where text stays pinned
+    const initialPinDistance = window.innerHeight * 0.5;
+    const totalScrollDistance = (textItems.length) * window.innerHeight - window.innerHeight / 2 + initialPinDistance;
 
     // Create a single timeline for the entire scale animation
     const scaleTimeline = gsap.timeline({
@@ -69,17 +71,17 @@ export function ProductSection() {
       }
     });
 
-    // Scale up at the beginning (25% of timeline)
+    // Scale up at the beginning (15% of timeline) - image grows while first text stays visible
     scaleTimeline.to(imageInner, {
       scale: 1,
       ease: 'power2.out',
-      duration: 0.25,
+      duration: 0.15,
     });
 
-    // Stay at full scale (50% of timeline)
+    // Stay at full scale (60% of timeline)
     scaleTimeline.to(imageInner, {
       scale: 1,
-      duration: 0.5,
+      duration: 0.6,
     });
 
     // Scale down at the end (25% of timeline)
@@ -96,6 +98,18 @@ export function ProductSection() {
       pin: imageContainerRef.current,
       pinSpacing: true,
     });
+
+    // Pin the first text item during the initial image scale-up phase
+    const firstTextItem = textItems[0];
+    if (firstTextItem) {
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: () => `+=${initialPinDistance}`,
+        pin: firstTextItem,
+        pinSpacing: false,
+      });
+    }
 
     textItems.forEach((itemCard, index) => {
       const item = productItems.find(p => `${p.id}-trigger` === itemCard.id);
